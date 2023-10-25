@@ -1,0 +1,244 @@
+Select(Parent);
+Set(
+    Sortupdate,
+    true
+);
+UpdateContext(
+    {
+        nextrecordc: LookUp(
+            scCollection,
+            RowNumber = ThisItem.RowNumber + 1
+        )
+    }
+);
+If(
+    nextrecordc.'Slide Order' - ThisItem.'Slide Order' > 1,
+    Set(
+        nextslideorderc,
+       ThisItem.'Slide Order' 
+    );
+    Set(
+        currentslideorderc,
+        ThisItem.'Slide Order'  + 1
+    ),
+    Set(
+        nextslideorderc,
+        ThisItem.'Slide Order' 
+        
+    );
+    Set(
+        currentslideorderc,
+        nextrecordc.'Slide Order' 
+        
+    )
+);
+
+ClearCollect(
+    scCollectionupdatec,
+    {
+        ID: nextrecordc.ID,
+        Title: nextrecordc.Title,
+        Category: nextrecordc.Category,
+       SlideOrder : nextslideorderc,
+        
+State: nextrecordc.State,
+       'Slide Image URL': nextrecordc.'Slide Image URL',
+       
+        RowNumber: nextrecordc.RowNumber
+    },
+    {
+        ID: ThisItem.ID,
+        Title: ThisItem.Title,
+        Category: ThisItem.Category,
+        SlideOrder : currentslideorderc,       
+State: ThisItem.State,
+        'Slide Image URL': ThisItem.'Slide Image URL',
+        
+        RowNumber: ThisItem.RowNumber
+    }
+);
+ForAll(
+    scCollectionupdatec As Update,
+    Patch(
+       'Carousel Management'
+       ,
+        LookUp(
+            'Carousel Management'
+            ,
+            ID = Update.ID
+        ),
+        {
+           
+        Title: Update.Title,
+        Category: Update.Category,
+        'Slide Order' : Update.SlideOrder,
+State: Update.State,
+        'Slide Image URL': Update.'Slide Image URL'
+        
+        }
+    )
+);
+/// For including row number
+Refresh('Carousel Management');
+ClearCollect(
+    scCollection1,
+    'Carousel Management'
+);
+ClearCollect(
+    scCollection2,
+    SortByColumns(
+        Filter(
+            scCollection1,
+            Delete <> true
+        ),
+        "SlideOrder",
+        SortOrder.Ascending
+    )
+);
+Clear(scCollection);
+ForAll(
+    scCollection2,
+    Collect(
+        scCollection,
+        Last(
+            FirstN(
+                AddColumns(
+                    scCollection2,
+                    "RowNumber",
+                    CountRows(scCollection) + 1
+                ),
+                CountRows(scCollection) + 1
+            )
+        )
+    )
+);
+
+Set(
+    Sortupdate,
+    false
+);
+///////////////////down
+///////////////////////
+//////////// up
+
+///////////
+
+
+
+
+
+Select(Parent);
+Set(
+    Sortupdate,
+    true
+);
+UpdateContext(
+    {
+        previousrecord: LookUp(
+            scCollection,
+            RowNumber = ThisItem.RowNumber - 1
+        )
+    }
+);
+If(
+    ThisItem.'Slide Order' - previousrecord.'Slide Order' > 1,
+    Set(
+        previousslideorderc,
+        previousrecord.'Slide Order' + 1
+    );
+    Set(
+        currentslideorderc,
+        previousrecord.'Slide Order'
+    ),
+    Set(
+        previousslideorderc,
+       ThisItem.'Slide Order'
+    );
+    Set(
+        currentslideorderc,
+        
+         previousrecord.'Slide Order'
+    )
+);
+
+ClearCollect(
+    scCollectionupdatec,
+    {
+        ID: previousrecord.ID,
+        Title: previousrecord.Title,
+        Category: previousrecord.Category,
+        State: previousrecord.State,
+        SlideOrder:previousslideorderc,
+       'Slide Image URL': previousrecord.'Slide Image URL',
+       
+        RowNumber: previousrecord.RowNumber
+    },
+    {
+        ID: ThisItem.ID,
+        Title: ThisItem.Title,
+        Category: ThisItem.Category,
+        State: ThisItem.State,
+       SlideOrder: currentslideorderc,
+        'Slide Image URL': ThisItem.'Slide Image URL',
+       
+        RowNumber: ThisItem.RowNumber
+    }
+);
+ForAll(
+    scCollectionupdatec As Update,
+    Patch(
+         'Carousel Management',
+        LookUp(
+            'Carousel Management',
+            ID = Update.ID
+        ),
+        {
+            Title: Update.Title,
+            Category: Update.Category,
+            State: Update.State,
+             'Slide Order': Update.SlideOrder,
+            'Slide Image URL': Update.'Slide Image URL'
+           
+        }
+    )
+);
+/// For including row number
+Refresh( 'Carousel Management');
+ClearCollect(
+    scCollection1,
+    'Carousel Management'
+);
+ClearCollect(
+    scCollection2,
+    SortByColumns(
+        Filter(
+            scCollection1,
+            Delete <> true
+        ),
+        "SlideOrder",
+        SortOrder.Ascending
+    )
+);
+Clear(scCollection);
+ForAll(
+    scCollection2,
+    Collect(
+        scCollection,
+        Last(
+            FirstN(
+                AddColumns(
+                    scCollection2,
+                    "RowNumber",
+                    CountRows(scCollection) + 1
+                ),
+                CountRows(scCollection) + 1
+            )
+        )
+    )
+);
+///
+Set(
+    Sortupdate,
+    false
+);
+
