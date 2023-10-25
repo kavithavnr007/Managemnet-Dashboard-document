@@ -1,0 +1,2084 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<script type="text/javascript" src="https://vistapointmtg.sharepoint.com/:u:/r/sites/VistaPointMortgageIntranet/Style%20Library/js/slick.js">
+	</script>
+	<script type="text/javascript"
+      src="https://vistapointmtg.sharepoint.com/:u:/r/sites/VistaPointMortgageIntranet/Style%20Library/js/vista.js"
+    >
+	</script>
+<link rel="stylesheet" href="https://vistapointmtg.sharepoint.com/:u:/r/sites/VistaPointMortgageIntranet/Style%20Library/css/style.css" />
+	<style>
+
+		.CanvasZone > div{ max-width:100% !important}
+		
+.root-76 {
+ background-color: transparent !important;
+}
+	.root-80{
+padding:0px !important}
+.a_a_50a7110f:not(.b_a_50a7110f){
+margin:0px !important
+}
+.banner-parent{
+    background:white!important;
+    border-radius:7px !important;
+    padding: 5px !important;
+    
+}
+.MS-Wrap img{
+    height:100px!important;
+    padding: 0px!important;
+    border:none!important;
+    background-color: transparent !important;
+    border-radius:7px 0px 0px 7px !important;
+}
+.QG-wrap img{
+border-radius: 0px 7px 7px 0px;
+}
+
+	   .header-wrap{
+	        display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+	    }
+	    
+	</style>
+	<style>
+     .root-79{
+   background: transparent !important;
+    padding: 0px!important;
+    
+}
+
+ </style>
+<div style=" border-radius:15px; display:flex; width:100%">
+	<div style="border-radius: 15px 0px 0px 15px; width:50%" class="MS-Wrap">
+	</div>
+	<div style="width:50%; border-radius: 0px 15px 15px 0px;" class="QG-wrap">
+		</div>
+		</div>
+			<div class="modal fade" id="announceModel" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Announcement</h4>
+				</div>
+				<div class="modal-body">
+					<p id="an-notes">Some text in the modal.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<script>
+getMSData();
+getQGData();
+ </script>
+
+
+
+
+
+
+
+
+
+ ////////////////////
+
+////////vista.js///////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ var webAbsoluteUrl = _spPageContextInfo.webAbsoluteUrl;
+var imgCount = 0;
+var currentDate = new Date(new Date().toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles"
+})).getTime();
+var pageName = window.location.pathname.split("/").pop().split(".").shift();
+pageName == "ProjectHome" || pageName == "VistaPointMortgageIntranet"  ? pageName = "Home" : pageName;
+var scPath = "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Social Carousel')/items";    
+var msPath = "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Mission Statement')/items"
+var qgPath = "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Quarterly Goal')/items"
+var socialEventGallery = "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Social Event Gallery')/items?&$orderby=EventDate"
+
+var jobPostPath = "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Job Posting')/items"
+var blogPostPath = pageName.toLowerCase() =='vistapoint-ops-archive' ||
+pageName.toLowerCase() == 'vistapoint-sales-archive' ||
+pageName.toLowerCase() == 'vistapoint-sales-nondel-archive' ||
+pageName.toLowerCase() == 'nextus-ops-archive' ||
+pageName.toLowerCase() == 'nextus-sales-archive' ||
+pageName.toLowerCase() == 'corporate-servicing-archive'||
+pageName.toLowerCase() == 'corporate-legalcompliance-archive'||
+pageName.toLowerCase() == 'corporate-capitalmarkets-archive'||
+pageName.toLowerCase() == 'corporate-lockdesk-archive'||
+pageName.toLowerCase() == 'corporate-finance-archive'||
+pageName.toLowerCase() == 'corporate-accounting-archive'||
+pageName.toLowerCase() == 'corporate-officeadmin-archive'||
+pageName.toLowerCase() == 'corporate-credit-archive'||
+pageName.toLowerCase() == 'corporate-clientadmin-archive'||
+pageName.toLowerCase() == 'corporate-clientservices-archive'||
+pageName.toLowerCase() == 'corporate-marketing-archive'
+? "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Manage Updates Archive')/items" 
+: "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Manage Updates')/items"
+var blogPostData = []
+var msData = [];
+var nextUsNewsPath = pageName.toLowerCase() == 'nextus-news-archive' || pageName.toLowerCase() == 'vista-point-news-archive' || pageName.toLowerCase() == 'corporate-news-archive'|| pageName.toLowerCase() == 'markets-news-archive'  ? "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('NextUs News Archive')/items" : "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('NextUs News')/items";
+
+var announcePath = pageName.toLowerCase() == 'announcement-list-archive' ? "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Announcement Ticker Archive')/items" : "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Announcement Ticker')/items"
+var loggedUserPath = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + _spPageContextInfo.userId + ")";
+var loggedUserMail;
+var msData_vista = [];
+var msData_nextUs = [];
+var qgData = [];
+var carouselData = [];
+var socialEventData = [];
+var announceNote = [];
+var jobPostingData = [];
+var nextUsNews = [];
+var resAdminRole = [];
+var blogAdminRole = [];
+var newsAdminRole = [];
+var announceAdminRole = [];
+var resourcePath =
+  "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Resource Management')/items";
+var resData = [];
+var catTitle = [];
+var catTitlePath =
+  "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Category')/items";
+
+$.ajax({
+    url: loggedUserPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+
+        loggedUserMail = data.d.Email;
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+$.when(
+$.ajax({
+    url: "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Manage Updates Admin Role')/items?&$filter=(Delete eq 0)",
+    headers: {
+        Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+}),
+
+    $.ajax({
+    url:"https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Manage News Role')/items?&$filter=(Delete eq 0)",
+    headers: {
+        Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+}),
+        $.ajax({
+    url:"https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Resource Role')/items?&$filter=(Delete eq 0)",
+    headers: {
+        Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+}),
+      $.ajax({
+    url:"https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Manage Announcement Role')/items?&$filter=(Delete eq 0)",
+    headers: {
+        Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+})
+).done(function(blog,news,res,ann) {
+newsAdminRole = news[0].d.results;//.filter(res=>(!res.Delete));
+blogAdminRole = blog[0].d.results;//.filter(res=>(!res.Delete));
+resAdminRole = res[0].d.results;//.filter(res=>(!res.Delete));
+announceAdminRole = ann[0].d.results;//.filter(res=>(!res.Delete))
+
+});
+var webAbsoluteUrl = _spPageContextInfo.webAbsoluteUrl;
+var qBlogAdminRole=`${webAbsoluteUrl}/_api/lists/getbytitle('Manage Updates Admin Role')//items?$select=Email,Page,Delete&$filter=Email eq '${loggedUserMail}'`;
+$.ajax({
+    url: qBlogAdminRole,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        blogAdminRole = data.d.results.filter(res=>(!res.Delete));
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+
+$.ajax({
+    url: catTitlePath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+
+        catTitle = data.d.results;
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+
+function getMSData(){
+
+$.ajax({
+    url: msPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        msData = [];
+        for (i = 0; i < data.d.results.length; i++) {
+            msData.push(data.d.results[i]);
+        }
+        if (data.d.__next) {
+            msPath = data.d.__next;
+            getMSData();
+            return;
+        }
+      
+let missionData = msData.filter(
+    (res) => res.Active && res.Published && !res.Delete && res.Page.toLowerCase() == pageName.toLowerCase()
+);
+
+if (missionData.length > 0) {
+    
+    missionData = missionData.filter(res => ((new Date(new Date(res.StartDate).toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles"
+    })).getTime() < currentDate)) && ((new Date(new Date(res.EndDate).toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles"
+    })).getTime() > currentDate) || res.EndDate == null));
+    if (missionData.length == 1) {
+        let displayData = `<img src="${missionData[0].Image_x0020_URL.Url}" />`;
+        $('.MS-Wrap').html(displayData);
+    } else if (missionData.length > 1) {
+        let displayData = `<h2>Our Mission Statement</h2><p>Multiple data matches current Date & Time. Please make sure the correct data</p>`;
+        $('.MS-Wrap-').html(displayData);
+    }
+
+}
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+}
+
+
+function getQGData(){
+$.ajax({
+    url: qgPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        
+        for (i = 0; i < data.d.results.length; i++) {
+            qgData.push(data.d.results[i]);
+        }
+        if (data.d.__next) {
+            qgPath = data.d.__next;
+            getQGData();
+            return;
+        }
+      
+let goalData = qgData.filter(
+    (e) => (e.Active && !e.Delete)
+);
+if (goalData.length > 0) {
+
+    for (i=0; i<goalData.length; i++){
+    let startDate = new Date(goalData[i].StartDate).getTime();
+    let endDate = new Date(goalData[i].EndDate).getTime();
+    let img = goalData[i].PhotoURL.Url
+   
+    let goalContent = `<div class="Quaterly-Goals" ><img src="${img}" onclick="openVideoModel(${goalData[i].ID})" alt="Quarterly Goals" title="Quarterly Goals" style="cursor:pointer" /></div>`;
+
+    if (startDate < currentDate && (endDate > currentDate || endDate == 0)) {
+        $('.QG-wrap').empty();
+        $('.QG-wrap').append(goalContent);
+    } 
+    }
+}else $('.QG-wrap').hide();
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+}
+
+function openVideoModel(id){
+let data = qgData.filter(items => items.ID == id);
+let vidContent = `<video width="100%" height="360" controls>
+  <source src="${data[0].Video.Url}" type="video/mp4">
+</video>`
+$('#announceModel .modal-title').html('Quarterly Goals')
+$("#an-notes").html(vidContent);
+$('#announceModel .modal-body a').attr('target','_blank');
+$('#announceModel .modal-body a').css({'font-weight':'500','text-decoration':'underline'});
+$('#announceModel').modal('show')
+};
+
+$('#announceModel').on('hidden.bs.modal', function (e) {
+  $("#an-notes").empty()
+})
+
+/**************** slider JSON DATA ***************/
+function GetSortOrder(prop) {
+return function (a, b) {
+    if (a[prop] > b[prop]) {
+        return 1;
+    } else if (a[prop] < b[prop]) {
+        return -1;
+    }
+    return 0;
+}
+};
+
+
+
+$.ajax({
+    url: scPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+    carouselData = data.d.results.filter(res => (!res.Delete && res.Active));
+    carouselData = carouselData.filter(res => ((new Date(new Date(res.Start_x0020_Date).toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles"
+    })).getTime() < currentDate)) && ((new Date(new Date(res.Expiry_x0020_Date).toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles"
+    })).getTime() > currentDate) || res.Expiry_x0020_Date == null)).sort(GetSortOrder("Slide_x0020_Order"));
+    },
+
+    eror: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+function GetSlierListItems() {
+    
+if (carouselData.length > 0) $('.camp-fire-wrap').prepend("<h3>The Spotlight</h3>")
+
+ for (i = 0; i < carouselData.length; i++) {
+let slide = `
+<div class="slide-wrap" onclick="detailsPage('Home',${carouselData[i].ID},'${carouselData[i].Navigation_x0020_Path}')">
+<div>
+<div class="slide-left" style="background:url(${carouselData[i].Slide_x0020_Image.Url}) ">
+</div>
+<div class="slide-right">
+<h3>${carouselData[i].Title.replace(/<[^>]*>?/gm, '')}</h3>
+<div class="created-date">${new Date(carouselData[i].Start_x0020_Date).toString().slice(4,15)}</div>
+<div class="description">${carouselData[i].Description.replace(/<[^>]*>?/gm, '')}</div>
+</div></div></div>`
+$('.img-slides').append(slide)
+
+ }
+$('.img-slides').slick({
+    dots: true,
+    infinite: true,
+    speed: 300,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+  });
+};
+
+function handleCampFireScreen1(){
+$.ajax({
+    url:socialEventGallery,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        socialEventData = [...socialEventData,...data.d.results]
+        if (data.d.__next) {
+            socialEventGallery = data.d.__next;
+            handleCampFireScreen1();
+            return;
+        }
+        let todayDate = new Date();
+        let campFireData = socialEventData.filter(res => ( res.Active == true && res.Delete != true)).reverse();// && new Date(res.EventDate).getTime() < todayDate.getTime() && res.Delete != true)).reverse();
+$('.camp-fire-list').empty();   
+for (i = 0; i < campFireData.length; i++) {
+if(new Date(campFireData[i].EventDate)>todayDate){
+let slideRecent = `
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <a href="javascript:void(0)" onclick="detailsPage('CampFire',${campFireData[i].ID},'${campFireData[i].Navigation_x0020_Path}')">
+                    <div class="card-flyer">
+                        <div class="text-box">
+                            <div class="image-box">
+                                <img src="${campFireData[i].DisplayImage.Url}" alt="" />
+                            </div>
+                            <div class="text-container">
+                                <h3>${campFireData[i].Title.replace(/<[^>]*>?/gm, '')}</h3>
+                                <h6>${new Date(campFireData[i].EventDate).toString().slice(4,15)}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+`
+$('#recent .camp-fire-list').append(slideRecent);
+}
+else{
+let slideOld = `
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <a href="javascript:void(0)" onclick="detailsPage('CampFire',${campFireData[i].ID},'${campFireData[i].Navigation_x0020_Path}')">
+                    <div class="card-flyer">
+                        <div class="text-box">
+                            <div class="image-box">
+                                <img src="${campFireData[i].DisplayImage.Url}" alt="" />
+                            </div>
+                            <div class="text-container">
+                                <h3>${campFireData[i].Title.replace(/<[^>]*>?/gm, '')}</h3>
+                                <h6>${new Date(campFireData[i].EventDate).toString().slice(4,15)}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+`
+$('#old .camp-fire-list').append(slideOld);
+}
+
+//<div class="divider"></div>
+//$('.camp-fire-list').append(slide);
+socialEventData = [];
+}
+
+
+    },
+
+
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+}
+
+
+function handleCampFireScreen(){
+$.ajax({
+    url:socialEventGallery,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        socialEventData = [...socialEventData,...data.d.results]
+        if (data.d.__next) {
+            socialEventGallery = data.d.__next;
+            handleCampFireScreen();
+            return;
+        }
+        let todayDate = new Date();
+        let campFireData = socialEventData.filter(res => ( res.Active == true && 
+        //new Date(res.EventDate).getTime() < todayDate.getTime() 
+        (new Date(res.ExpiryDate).getTime() > todayDate.getTime()|| res.ExpiryDate== null)&& res.Delete != true)).reverse();
+$('.camp-fire-list').empty();   
+for (i = 0; i < campFireData.length; i++) {
+let slide = `
+<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <a href="javascript:void(0)" onclick="detailsPage('CampFire',${campFireData[i].ID},'${campFireData[i].Navigation_x0020_Path}')">
+                    <div class="card-flyer">
+                        <div class="text-box">
+                            <div class="image-box">
+                                <img src="${campFireData[i].DisplayImage.Url}" alt="" />
+                            </div>
+                            <div class="text-container">
+                                <h3>${campFireData[i].Title.replace(/<[^>]*>?/gm, '')}</h3>
+                                <h6>${new Date(campFireData[i].EventDate).toString().slice(4,15)}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+`
+
+//<div class="divider"></div>
+$('.camp-fire-list').append(slide);
+socialEventData = [];
+}
+
+
+    },
+
+
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+}
+
+function detailsPage(navPath,gID,folderPath){
+    
+localStorage.setItem("root_live" , navPath);    
+localStorage.setItem("vistaGid_live" , gID);
+localStorage.setItem("vistaFolderPath_live" , folderPath);
+window.open('https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/SitePages/Details-Page.aspx', '_blank');
+//window.location = "";
+
+}
+
+function showDedails(){
+let itemID = localStorage.getItem("vistaGid_live");
+let folderRoot = localStorage.getItem("vistaFolderPath_live");
+let path = localStorage.getItem("root_live") == "Home" ? "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Social Carousel')": "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/lists/getbytitle('Social Event Gallery')";
+
+$.when(
+$.ajax({
+    url: `${path}/getItemById(${itemID})`,
+    headers: {
+        Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+}),
+
+    $.ajax({
+    url: `https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/web/GetFolderByServerRelativeUrl('${folderRoot}')/Files`,
+    headers: {
+        Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+}),
+        $.ajax({
+    url: `https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/web/GetFolderByServerRelativeUrl('${folderRoot}/video/thumbnail')/Files`,
+    headers: {
+        Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+}),
+    $.ajax({
+    url: `https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/_api/web/GetFolderByServerRelativeUrl('${folderRoot}/video')/Files`,
+    headers: {
+        Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+})
+).done(function(galData, imgData, vThumbnail,vFile) {
+let displayData
+if(localStorage.getItem("root_live") == "Home") {
+displayData = `<h1>${galData[0].d.Title}</h1><div class="date-div">${new Date(galData[0].d.Start_x0020_Date).toString().slice(4,15)}</div> <div style="padding:10px 0px">${galData[0].d.Description}</div>`
+
+} else {
+
+displayData = `<h1>${galData[0].d.Title}</h1><div class="date-div">${new Date(galData[0].d.EventDate).toString().slice(4,15)}</div> <div  style="padding:10px 0px">${galData[0].d.Description}</div>`
+
+}    
+
+$('.details-wrap').append(displayData);
+
+for(i=0;i<imgData[0].d.results.length; i++){
+imgCount++;
+let img = `
+<img
+    class="lightboxed"
+    rel="group1"
+    src="${imgData[0].d.results[i].ServerRelativeUrl}"
+    data-link="${imgData[0].d.results[i].ServerRelativeUrl}"
+    alt="Image Alt"
+    data-index="${imgCount}"
+    data-caption="Image Caption"
+  />`
+$('.details-wrap').append(img);
+}
+for(i=0;i<vThumbnail[0].d.results.length; i++){
+if(vThumbnail[0].d.results[i].Name.split(".")[0] == vFile[0].d.results[i].Name.split(".")[0]){
+imgCount++;
+let img = `
+<img
+    class="lightboxed"
+    rel="group1"
+    src="${vThumbnail[0].d.results[i].ServerRelativeUrl}"
+    data-link="${vFile[0].d.results[i].ServerRelativeUrl}"
+    alt="Image Alt"
+    data-index="${imgCount}"
+    data-caption="Image Caption"
+    data-width="560"
+    data-height="315"
+  />`
+$('.details-wrap').append(img);
+}
+}
+})
+jQuery('.lightboxed').lightboxed()
+}
+
+function GetAnnouncementListItems() {
+    
+var apiPath = announcePath;
+$.ajax({
+    url: apiPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        announceNote = [...announceNote,...data.d.results]
+        if (data.d.__next) {
+            announcePath = data.d.__next;
+            GetAnnouncementListItems();
+            return;
+        }
+    },
+    eror: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+};
+
+function displayAnnouncementOnHomePage() {
+    
+        let todayDate = new Date().getTime();
+        let displayData = announceNote.filter(e => e.Publish && e.DisplayonLandingPage && !e.Delete).sort(GetSortOrder("StartDate")).reverse();
+         
+            for (i = 0; i < displayData.length; i++) {
+                var startDate = new Date(displayData[i].StartDate).getTime();
+                var endDate = displayData[i].EndDate ? new Date(displayData[i].EndDate).getTime() : null
+                var newGifEndDay = startDate + (60000*60*24);
+
+                if (todayDate > startDate && (todayDate < endDate || endDate == null)) {
+                    $('.announce-wrap').css("display", "flex");
+                    if (todayDate > startDate && todayDate < newGifEndDay) {
+                        $("#aList").append(`<li class="listOrder" onclick="openModel(${displayData[i].Id});return false;">${displayData[i].Title}</li>`);
+                    } else {
+                        $("#aList").append(`<li onclick="openModel(${displayData[i].Id});return false;">${displayData[i].Title}</li>`);
+                    }
+                }
+
+            }
+}
+
+
+function openModel(id){
+let data = announceNote.filter(items => items.ID == id);
+$("#an-notes").html(data[0].Description);
+$('#announceModel .modal-title').html('Announcement')
+$('#announceModel .modal-body a').attr('target','_blank');
+$('#announceModel .modal-body a').css({'font-weight':'500','text-decoration':'underline'});
+$('#announceModel').modal('show')
+};
+
+
+
+
+
+
+
+
+function jobPosting() {
+$.ajax({
+    url:jobPostPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        jobPostingData = [...jobPostingData,...data.d.results]
+        if (data.d.__next) {
+            jobPostPath = data.d.__next;
+            jobPosting();
+            return;
+        }
+    },
+
+
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+}
+jobPosting()
+function appendJobPost(){
+
+let jobPostWrap = $('.career-wrap');
+jobPostWrap.empty()
+jobPostingData = jobPostingData.filter(list => list.Status.toLowerCase() == "open" || list.Status.toLowerCase() == "reopen")
+if(jobPostingData.length > 0){
+
+$('.car-container').show()    
+jobPostingData.map(items => jobPostWrap.append(`<div class="post" onclick="jobPostDetails(${items.ID})"><p>${items.JobTitle.replace(/<[^>]*>?/gm, '')}</p><p>${items.Title.replace(/<[^>]*>?/gm, '')} | 
+${items.Location.replace(/<[^>]*>?/gm, '')}</p></div>`))
+}
+}
+
+
+function jobPostDetails(id){
+let data = jobPostingData.filter(items => items.ID == id);
+
+let content = ` <div class="c-container"><div class="c-wrap">
+            <P>Job ID : <span>${data[0].Title.replace(/<[^>]*>?/gm, '')}</span></p>
+            <P>Location :<span> ${data[0].Location.replace(/<[^>]*>?/gm, '')}</span></p> </div>
+            <div class="c-wrap">
+            <P>No of Positions :<span> ${data[0].NoOfPosition.replace(/<[^>]*>?/gm, '')}</span></p>
+            <P>Years of Experience :<span> ${data[0].YearofExperience.replace(/<[^>]*>?/gm, '')}</span></p> </div></div>
+            <P><span style="font-weight:500; color:#000">Job Description :</span> <br /> ${data[0].JobDescription}</p>`;
+$('#jobPostingModel .modal-title').html(`${data[0].JobTitle.replace(/<[^>]*>?/gm, '')}`);
+$('#jobPostingModel .modal-body').html(content);
+$('#jobPostingModel').modal('show')
+}
+
+
+
+function blogPost() {
+$.ajax({
+    url:blogPostPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        let filterData =  data.d.results.filter(itemts => itemts.Active && itemts.Published && !itemts.Delete);
+        blogPostData = [...blogPostData,...filterData]
+        
+        if (data.d.__next) {
+            blogPostPath = data.d.__next;
+            blogPost();
+            return;
+        }
+       // extractBlogData (title)
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+}
+blogPost()
+ function timeSince(date) {
+        var seconds = Math.floor((new Date() - date) / 1000);
+
+        var interval = seconds / 31536000;
+       /*  if (interval > 1) {
+          return Math.floor(interval) + ' years';
+        }
+        interval = seconds / 2592000;
+        if (interval > 1) {
+          return Math.floor(interval) + ' months';
+        }*/
+        var interval = seconds / 86400;
+        if (interval > 1) {
+          //return Math.floor(interval) + ' days';
+          return new Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' }).format(date)
+        }
+        interval = seconds / 3600;
+        if (interval > 1) {
+          let res = `${Math.floor(interval)} ${Math.floor(interval) > 1 ? 'hours ago' : 'hour ago'}`
+          return res;
+        }
+        interval = seconds / 60;
+        if (interval > 1) {
+             let res = `${Math.floor(interval)} ${Math.floor(interval) > 1 ? ' minutes ago' : 'minute ago'}`
+            return res;
+         }
+        return `${Math.floor(seconds)} ${Math.floor(seconds) > 1 ? 'seconds ago' : 'second ago'}`
+      }
+      //var aDay = 24 * 60 * 60 * 1000;
+      
+      
+
+
+function extractBlogData (title) {
+let disUpdates = blogPostData.filter(itemts => currentDate > new Date(itemts.StartDate).getTime() && (currentDate < new Date(itemts.EndDate).getTime() ||itemts.EndDate == null)
+ && itemts.Page.toLowerCase() == pageName.toLowerCase())
+
+var filterBy1 = (pageName.toLowerCase() == 'nextus-news-archive' || pageName.toLowerCase() == 'nextus-news' || pageName.toLowerCase() == 'nextushome') ?  'nextushome' : 'vistapointhome';
+if(pageName.toLowerCase().match('vistapoint-ops|vistapoint-ops-updates|vistapoint-ops-archive')){ filterBy1= 'vistapoint-ops'} 
+if(pageName.toLowerCase().match('vistapoint-sales|vistapoint-sales-updates|vistapoint-sales-archive')) {filterBy1= 'vistapoint-sales'}
+if(pageName.toLowerCase().match('vistapoint-sales-nondel|vistapoint-sales-nondel-updates|vistapoint-sales-nondel-archive')) {filterBy1= 'vistapoint-sales-nondel'}
+if(pageName.toLowerCase().match('nextus-sales|nextus-sales-updates|nextus-sales-archive')) {filterBy1= 'nextus-sales'}
+if(pageName.toLowerCase().match('nextus-ops|nextus-ops-updates|nextus-ops-archive')){ filterBy1= 'nextus-ops'} 
+if(pageName.toLowerCase().match('nextus-retail-sales|nextus-retail-sales-updates|nextus-retail-sales-archive')) {filterBy1= 'nextus-retail-sales'}
+if(pageName.toLowerCase().match('corporatehome|corporate-news|corporate-news-archive')) {filterBy1= 'corporatehome'}
+if(pageName.toLowerCase().match('servicing|corporate-servicing-updates|corporate-servicing-archive')) {filterBy1= 'servicing'}
+if(pageName.toLowerCase().match('legal-compliance|corporate-legalcompliance-updates|corporate-legalcompliance-archive')) {filterBy1= 'legal-compliance'}
+if(pageName.toLowerCase().match('capitalmarkets|corporate-capitalmarkets-updates|corporate-capitalmarkets-archive')) {filterBy1= 'capitalmarkets'}
+if(pageName.toLowerCase().match('lockdesk|corporate-lockdesk-updates|corporate-lockdesk-archive')) {filterBy1= 'lockdesk'}
+if(pageName.toLowerCase().match('finance|corporate-finance-updates|corporate-finance-archive')) {filterBy1= 'finance'}
+if(pageName.toLowerCase().match('accounting|corporate-accounting-updates|corporate-accounting-archive')) {filterBy1= 'accounting'}
+if(pageName.toLowerCase().match('office-admin|corporate-officeadmin-updates|corporate-officeadmin-archive')) {filterBy1= 'office-admin'}
+if(pageName.toLowerCase().match('credit|corporate-credit-updates|corporate-credit-archive')) {filterBy1= 'credit'}
+if(pageName.toLowerCase().match('client-admin|corporate-clientadmin-updates|corporate-clientadmin-archive')) {filterBy1= 'client-admin'}
+if(pageName.toLowerCase().match('client-services|corporate-clientservices-updates|corporate-clientservices-archive')) {filterBy1= 'client-services'}
+if(pageName.toLowerCase().match('marketing|corporate-marketing-updates|corporate-marketing-archive')) {filterBy1= 'marketing'}
+if(pageName.toLowerCase().match('markets| markets-news-archive|markets-news')) {filterBy1= 'markets'}
+if(pageName.toLowerCase().match('data')) {filterBy1= 'data'}
+
+var isadminuser=blogAdminRole.filter(e=> e.Page.toLowerCase() == filterBy1 && !e.Delete).map(data => data.Email.toLowerCase()).includes(loggedUserMail.toLowerCase())?true:false;
+var isAllPostsPage=pageName.toLowerCase().match('nextus-news|vistapoint-ops-updates|vistapoint-sales-updates|vistapoint-sales-nondel-updates|nextus-sales-updates|nextus-ops-updates|corporate-news|corporate-servicing-updates|corporate-legalcompliance-updates|corporate-capitalmarkets-updates|corporate-lockdesk-updates|corporate-finance-updates|corporate-accounting-updates|corporate-officeadmin-updates|corporate-credit-updates|corporate-clientadmin-updates|corporate-clientservices-updates')?true:false;
+
+if (disUpdates.length > 0) {
+$('.blog-container').show()
+
+let userEmail = disUpdates[0].PostedByEmail ? disUpdates[0].PostedByEmail : "No Email";
+let userIcon;
+let userName = disUpdates[0].PostedByName ? disUpdates[0].PostedByName : "No Name";
+let postDate = `${timeSince(new Date(disUpdates[0].StartDate))}`
+
+let blogContent = `<div class="vista-blog"><div class="blog-content"><h4 style="margin-bottom:3px"><a href="#" style="text-decoration:underline" onclick="blogDetails(${disUpdates[0].ID},'${title}','${userName}','blog')">${disUpdates[0].Title}</a></h4><p style="margin-bottom:2px;">${userName} - ${postDate.toString()}</p><p>${disUpdates[0].Description.replace(/<[^>]*>?/gm, '')}</p></div></div>`
+
+$('.blog-wrap').append(blogContent);
+$('.blog-container').prev().show();
+$('.blog-container').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+if(isadminuser){// || isAllPostsPage){
+    $('.blog-container .blog-head a').show()
+    $('.blog-container .blog-head').show()
+}
+else{
+    $('.blog-container .blog-head a').hide()
+    $('.blog-container .blog-head').hide()
+}
+}else {
+    if(isadminuser){// || isAllPostsPage){
+        $('.blog-container').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+        $('.blog-container .blog-head a').show();
+        $('.blog-container .blog-head').show();
+        $('.blog-container').prev().show();
+        $('.blog-container').show();
+    }
+    else{
+        $('.blog-container .blog-head a').hide()
+        $('.blog-container .blog-head').hide()
+        $('.blog-container').prev().hide();
+    }
+    $('.blog-container .blog-wrap').hide();     
+    $('.blog-container .archive-list-link').hide();
+}
+}
+
+
+function blogDataAll(title,page) {
+let disUpdates = blogPostData.filter(itemts => currentDate > new Date(itemts.StartDate).getTime() && itemts.Page.toLowerCase() == page.toLowerCase())
+disUpdates.sort(function(a,b){
+return new Date(b.StartDate) - new Date(a.StartDate);
+});
+
+var filterBy1 = (pageName.toLowerCase() == 'nextus-news-archive' || pageName.toLowerCase() == 'nextus-news' || pageName.toLowerCase() == 'nextushome') ?  'nextushome' : 'vistapointhome';
+if(pageName.toLowerCase().match('vistapoint-ops|vistapoint-ops-updates|vistapoint-ops-archive')){ filterBy1= 'vistapoint-ops'} 
+if(pageName.toLowerCase().match('vistapoint-sales|vistapoint-sales-updates|vistapoint-sales-archive')) {filterBy1= 'vistapoint-sales'}
+if(pageName.toLowerCase().match('vistapoint-sales-nondel|vistapoint-sales-nondel-updates|vistapoint-sales-nondel-archive')) {filterBy1= 'vistapoint-sales-nondel'}
+if(pageName.toLowerCase().match('nextus-sales|nextus-sales-updates|nextus-sales-archive')) {filterBy1= 'nextus-sales'}
+if(pageName.toLowerCase().match('nextus-ops|nextus-ops-updates|nextus-ops-archive')){ filterBy1= 'nextus-ops'} 
+if(pageName.toLowerCase().match('corporatehome|corporate-news|corporate-news-archive')) {filterBy1= 'corporatehome'}
+if(pageName.toLowerCase().match('servicing|corporate-servicing-updates|corporate-servicing-archive')) {filterBy1= 'servicing'}
+if(pageName.toLowerCase().match('legal-compliance|corporate-legalcompliance-updates|corporate-legalcompliance-archive')) {filterBy1= 'legal-compliance'}
+if(pageName.toLowerCase().match('capitalmarkets|corporate-capitalmarkets-updates|corporate-capitalmarkets-archive')) {filterBy1= 'capitalmarkets'}
+if(pageName.toLowerCase().match('lockdesk|corporate-lockdesk-updates|corporate-lockdesk-archive')) {filterBy1= 'lockdesk'}
+if(pageName.toLowerCase().match('finance|corporate-finance-updates|corporate-finance-archive')) {filterBy1= 'finance'}
+if(pageName.toLowerCase().match('accounting|corporate-accounting-updates|corporate-accounting-archive')) {filterBy1= 'accounting'}
+if(pageName.toLowerCase().match('office-admin|corporate-officeadmin-updates|corporate-officeadmin-archive')) {filterBy1= 'office-admin'}
+if(pageName.toLowerCase().match('credit|corporate-credit-updates|corporate-credit-archive')) {filterBy1= 'credit'}
+if(pageName.toLowerCase().match('client-admin|corporate-clientadmin-updates|corporate-clientadmin-archive')) {filterBy1= 'client-admin'}
+if(pageName.toLowerCase().match('client-services|corporate-clientservices-updates|corporate-clientservices-archive')) {filterBy1= 'client-services'}
+if(pageName.toLowerCase().match('marketing|corporate-marketing-updates|corporate-marketing-archive')) {filterBy1= 'marketing'}
+if(pageName.toLowerCase().match('markets| markets-news-archive|markets-news')) {filterBy1= 'markets'}
+if(pageName.toLowerCase().match('data')) {filterBy1= 'data'}
+
+var isadminuser=blogAdminRole.filter(e=> e.Page.toLowerCase() == filterBy1 && !e.Delete).map(data => data.Email.toLowerCase()).includes(loggedUserMail.toLowerCase())?true:false;
+var isAllPostsPage=pageName.toLowerCase().match('nextus-news|vistapoint-ops-updates|vistapoint-sales-updates|vistapoint-sales-nondel-updates|nextus-sales-updates|nextus-ops-updates|corporate-news|corporate-servicing-updates|corporate-legalcompliance-updates|corporate-capitalmarkets-updates|corporate-lockdesk-updates|corporate-finance-updates|corporate-accounting-updates|corporate-officeadmin-updates|corporate-credit-updates|corporate-clientadmin-updates|corporate-clientservices-updates|corporate-marketing-updates')?true:false;
+
+if (disUpdates.length > 0) {
+$('.blog-container').show();
+for(i=0; i< disUpdates.length; i++){
+
+let userEmail = disUpdates[i].PostedByEmail ? disUpdates[i].PostedByEmail : "No Email";
+let userIcon;
+let userName = disUpdates[i].PostedByName ? disUpdates[i].PostedByName : "No Name";
+let postDate = `${timeSince(new Date(disUpdates[i].StartDate))}`
+
+
+
+let blogContent = `<div class="vista-blog"><div class="blog-content"><h4 style="margin-bottom:3px"><a href="#" style="text-decoration:underline" onclick="blogDetails(${disUpdates[i].ID},'${title}','${userName}','blog')">${disUpdates[i].Title}</a></h4><p style="margin-bottom:2px;">${userName} - ${postDate.toString()}</p><p>${disUpdates[i].Description.replace(/<[^>]*>?/gm, '')}</p></div></div>`
+
+$('.blog-wrap').append(blogContent);
+}
+$('.blog-container').prev().show();
+$('.blog-container').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+if(isadminuser){// || isAllPostsPage){
+    $('.blog-container .blog-head a').show()
+    $('.blog-container .blog-head').show()
+}
+else{
+    $('.blog-container .blog-head a').hide()
+    $('.blog-container .blog-head').hide()
+}
+}
+else { 
+    let blogContent = `<p style="text-align:center">No data available</p>`
+    $('.blog-wrap').append(blogContent)
+    if(isadminuser){// || isAllPostsPage){
+        $('.blog-container').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+        $('.blog-container .blog-head a').show();
+        $('.blog-container .blog-head').show();
+        $('.blog-container').prev().show();
+        $('.blog-container').show();
+    }
+    else{
+        $('.blog-container .blog-head a').hide()
+        $('.blog-container .blog-head').hide()
+        $('.blog-container').prev().hide();
+    }
+    $('.blog-container .archive-list-link').hide();
+    }
+}
+
+
+
+
+function blogDetails(id,title,username,moduleName){
+$('#blogModel .modal-body').empty()    
+let data = moduleName == "blog" ? blogPostData.filter(items => items.ID == id) : nextUsNews.filter(items => items.ID == id)
+let attachedFiles =  data[0].Attachments && getBlogAttchements(data[0].AttachmentFiles.__deferred.uri)
+attachedFiles &&  $('#blogModel .modal-body').append(`<p style="test-align:right"><span class="attach-icon"><i class="fa fa-paperclip" aria-hidden="true"></i></span> : ${attachedFiles.d.results.length} ${attachedFiles.d.results.length > 1 ?'Files Attached':'File Attached'} <p>`)
+let startDate = new Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' }).format(new Date(data[0].StartDate))
+let content = `<div class="header-wrap"><div class="title">${data[0].Title}</div><div class="date">${startDate}</div></div><div class="desc">${data[0].Description}</div>`
+let popupTitle = `<div class="title-wrap"><h3>${title}</h3><span>${username}</span></div>`
+$('#blogModel .modal-title').html(popupTitle);
+$('#blogModel .modal-body').append(content);
+$('#blogModel .modal-body a').attr('target','_blank');
+$('#blogModel .modal-body a').css({'font-weight':'500','text-decoration':'underline'});
+if(data[0].Attachments){
+$('#blogModel .modal-body').append(`<ul class="attachment"></ul>`)    
+let data = attachedFiles.d.results 
+for(i=0;i<data.length; i++){
+let fileExtention = data[i].FileName.slice(data[i].FileName.lastIndexOf('.')+1)
+let iconPath;
+if (fileExtention.toLowerCase().match('pdf')) {iconPath = _spPageContextInfo.webAbsoluteUrl + '/Style%20Library/img/icons/docs/pdf.png'}
+else if(fileExtention.toLowerCase().match('doc|docx')) {iconPath = _spPageContextInfo.webAbsoluteUrl + '/Style%20Library/img/icons/docs/word.svg'} 
+else if(fileExtention.toLowerCase().match('ppt|pptx')) {iconPath = _spPageContextInfo.webAbsoluteUrl + '/Style%20Library/img/icons/docs/ppt.png'}
+else if(fileExtention.toLowerCase().match('xlsx')) {iconPath = _spPageContextInfo.webAbsoluteUrl + '/Style%20Library/img/icons/docs/excel.svg'}
+else if(fileExtention.toLowerCase().match('csv')) {iconPath = _spPageContextInfo.webAbsoluteUrl + '/Style%20Library/img/icons/docs/csv.png'}
+else if(fileExtention.toLowerCase().match('jpg|gif|png|jpeg|svg|tif|bmp')) {iconPath = _spPageContextInfo.webAbsoluteUrl + '/Style%20Library/img/icons/docs/pic.png'}
+else {iconPath = _spPageContextInfo.webAbsoluteUrl + '/Style%20Library/img/icons/docs/file.png'}
+$('ul.attachment').append(`<li title="${data[i].FileName}"><a href="${data[i].ServerRelativeUrl}" target="_blank" data-interception="off"> <img src="${iconPath}"/> <p>${data[i].FileName.split('.')[0]}</p> </a></li>`) 
+}
+}
+
+$('#blogModel').modal('show')
+}
+
+function getBlogAttchements(url) {
+let attachedData;
+$.ajax({
+    url:url,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+    attachedData = data
+    },
+
+
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+return attachedData
+}
+
+
+function getNextUsNews() {
+
+
+$.ajax({
+    url:nextUsNewsPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+
+        nextUsNews = [...nextUsNews,...data.d.results]
+        if (data.d.__next) {
+            nextUsNewsPath = data.d.__next;
+            getNextUsNews();
+            return;
+        }
+    },
+
+
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+}
+getNextUsNews()
+
+     
+
+function newsOnHomePage(title) {
+let newsData = nextUsNews.filter(items => (items.Page.toLowerCase() == pageName.toLowerCase()) && items.Active && items.Publish && !items.Delete && new Date(items.StartDate).getTime() < currentDate);
+newsData.sort(function(a,b){
+return new Date(b.StartDate) - new Date(a.StartDate);
+});
+
+var filterBy1 = (pageName.toLowerCase() == 'nextus-news-archive' || pageName.toLowerCase() == 'nextus-news' || pageName.toLowerCase() == 'nextushome') ?  'nextushome' : 'vistapointhome';
+if(pageName.toLowerCase().match('vistapoint-ops|vistapoint-ops-updates|vistapoint-ops-archive')){ filterBy1= 'vistapoint-ops'} 
+if(pageName.toLowerCase().match('vistapoint-sales|vistapoint-sales-updates|vistapoint-sales-archive')) {filterBy1= 'vistapoint-sales'}
+if(pageName.toLowerCase().match('vistapoint-sales-nondel|vistapoint-sales-nondel-updates|vistapoint-sales-nondel-archive')) {filterBy1= 'vistapoint-sales-nondel'}
+if(pageName.toLowerCase().match('nextus-sales|nextus-sales-updates|nextus-sales-archive')) {filterBy1= 'nextus-sales'}
+if(pageName.toLowerCase().match('nextus-ops|nextus-ops-updates|nextus-ops-archive')){ filterBy1= 'nextus-ops'} 
+if(pageName.toLowerCase().match('corporatehome|corporate-news|corporate-news-archive')) {filterBy1= 'corporatehome'}
+if(pageName.toLowerCase().match('servicing|corporate-servicing-updates|corporate-servicing-archive')) {filterBy1= 'servicing'}
+if(pageName.toLowerCase().match('legal-compliance|corporate-legalcompliance-updates|corporate-legalcompliance-archive')) {filterBy1= 'legal-compliance'}
+if(pageName.toLowerCase().match('capitalmarkets|corporate-capitalmarkets-updates|corporate-capitalmarkets-archive')) {filterBy1= 'capitalmarkets'}
+if(pageName.toLowerCase().match('lockdesk|corporate-lockdesk-updates|corporate-lockdesk-archive')) {filterBy1= 'lockdesk'}
+if(pageName.toLowerCase().match('finance|corporate-finance-updates|corporate-finance-archive')) {filterBy1= 'finance'}
+if(pageName.toLowerCase().match('accounting|corporate-accounting-updates|corporate-accounting-archive')) {filterBy1= 'accounting'}
+if(pageName.toLowerCase().match('office-admin|corporate-officeadmin-updates|corporate-officeadmin-archive')) {filterBy1= 'office-admin'}
+if(pageName.toLowerCase().match('credit|corporate-credit-updates|corporate-credit-archive')) {filterBy1= 'credit'}
+if(pageName.toLowerCase().match('client-admin|corporate-clientadmin-updates|corporate-clientadmin-archive')) {filterBy1= 'client-admin'}
+if(pageName.toLowerCase().match('client-services|corporate-clientservices-updates|corporate-clientservices-archive')) {filterBy1= 'client-services'}
+if(pageName.toLowerCase().match('marketing|corporate-marketing-updates|corporate-marketing-archive')) {filterBy1= 'marketing'}
+if(pageName.toLowerCase().match('markets')) {filterBy1= 'markets'}
+if(pageName.toLowerCase().match('data')) {filterBy1= 'data'}
+
+var isadminuser=newsAdminRole.filter(e=> e.Page.toLowerCase() == filterBy1 && !e.Delete ).map(data => data.Email.toLowerCase()).includes(loggedUserMail.toLowerCase())?true:false;
+var isAllPostsPage=pageName.toLowerCase().match('nextus-news|vistapoint-ops-updates|vistapoint-sales-updates|vistapoint-sales-nondel-updates|nextus-sales-updates|nextus-ops-updates|corporate-news|corporate-servicing-updates|corporate-legalcompliance-updates|corporate-capitalmarkets-updates|corporate-lockdesk-updates|corporate-finance-updates|corporate-accounting-updates|corporate-officeadmin-updates|corporate-credit-updates|corporate-clientadmin-updates|corporate-clientservices-updates|corporate-marketing-updates')?true:false;
+
+if (newsData.length > 0) {
+pinData = newsData.filter(data => data.Pin);
+pinCount = 0 ;
+if(pinData.length > 0){
+   
+$('.next-us').show();
+for (i=0; i < pinData.length; i++){
+if(pinCount == 2) break;    
+pinCount++; 
+let userEmail = pinData[i].NewsPostedByEmail ? pinData[i].NewsPostedByEmail : "No Email";
+let userName = pinData[i].NewsPostedByName ? pinData[i].NewsPostedByName : "No Name";
+let postDate = `${timeSince(new Date(pinData[i].StartDate))}`
+let iconPath 
+
+let blogContent = `<div class="vista-blog"><div class="blog-content"><h4 style="margin-bottom:3px"><a href="#" style="text-decoration:underline" onclick="blogDetails(${pinData[i].ID},'${title}','${userName}','news')">${pinData[i].Title}</a> <span style="margin-bottom:2px;color: black;font-weight: 400;padding-left: 10px;font-size: 16px;">${ userName} - ${postDate.toString()}</span><img src="https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/Style%20Library/img/icons/pin.png"  style="margin-bottom: 5px;margin-left: 5px;"/> </h4><p>${pinData[i].ShortDescription!=null? pinData[i].ShortDescription : ` `}</p></div></div>`
+
+$('.nextUs-list').append(blogContent);
+}
+}
+
+if(pinCount != 2){
+$('.next-us').show();
+newsData = newsData.filter(items => !items.Pin);
+for (i=0; i < newsData.length; i++){
+if(pinCount == 2) break;    
+pinCount++; 
+let userEmail = newsData[i].NewsPostedByEmail ? newsData[i].NewsPostedByEmail : "No Email";
+let userName = newsData[i].NewsPostedByName ? newsData[i].NewsPostedByName : "No Name";
+let postDate = `${timeSince(new Date(newsData[i].StartDate))}`
+let iconPath 
+pageName.toLowerCase() == "nextushome" ? iconPath = 'https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/Style%20Library/img/icons/nextus_news.png' :(pageName.toLowerCase() == "corporatehome" ?iconPath = 'https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/Style%20Library/img/icons/corporate_news.png' :iconPath = 'https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/Style%20Library/img/icons/vista_news.png' ) 
+
+let blogContent = `<div class="vista-blog"><div class="blog-content"><h4 style="margin-bottom:3px"><a href="#" style="text-decoration:underline" onclick="blogDetails(${newsData[i].ID},'${title}','${userName}','news')">${newsData[i].Title}</a><span style="margin-bottom:2px;color: black;font-weight: 400;padding-left: 10px;font-size: 16px;">${ userName} - ${postDate.toString()}</span></h4><p>${newsData[i].ShortDescription!=null?   newsData[i].ShortDescription: ` `}</p></div></div>`
+
+$('.nextUs-list').append(blogContent);
+}
+}
+$('.next-us').prev().show();
+$('.next-us').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+if(isadminuser){// || isAllPostsPage){
+    $('.next-us .blog-head a').show()
+    $('.next-us .blog-head').show()
+}
+else{
+    $('.next-us .blog-head a').hide()
+    $('.next-us .blog-head').hide()
+}
+
+}  else { 
+    
+    if(isadminuser){// || isAllPostsPage){
+        $('.next-us').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+        $('.next-us .blog-head a').show();
+        $('.next-us .blog-head').show();
+        $('.next-us').prev().show();
+        $('.next-us').show();
+    }
+    else{
+        $('.next-us .blog-head a').hide()
+        $('.next-us .blog-head').hide()
+        $('.next-us').prev().hide();
+    }
+    $('.next-us .blog-wrap').hide();     
+    $('.next-us .archive-list-link').hide();
+    }
+
+}
+
+
+
+function nextUsNewsAll(title) {
+
+let newsData = nextUsNews;
+let filterBy = (pageName.toLowerCase() == 'nextus-news-archive' || pageName.toLowerCase() == 'nextus-news' ) ?  'nextushome':((pageName.toLowerCase() == 'vistapoint-news-archive' || pageName.toLowerCase() == 'vistapoint-news' )?'vistapointhome' : (pageName.toLowerCase() == 'corporate-news-archive' || pageName.toLowerCase() == 'corporate-news' )?'corporatehome' : 'markets') ;
+if(pageName.toLowerCase().match('markets| markets-news-archive|markets-news')) {filterBy= 'markets'};
+if(pageName.toLowerCase() == 'nextus-news-archive' || pageName.toLowerCase() == 'vistapoint-news-archive' || pageName.toLowerCase() == 'corporate-news-archive'|| pageName.toLowerCase() =='markets-news-archive'){
+newsData = nextUsNews.filter(items => items.Page.toLowerCase() == filterBy && items.Delete != true);
+}
+else {
+newsData = newsData.filter(items => (items.Page.toLowerCase() == filterBy) && items.Active && items.Publish && new Date(items.StartDate).getTime() < currentDate)
+newsData = newsData.filter(data => data.Delete != true)
+}
+newsData.sort(function(a,b){
+return new Date(b.StartDate) - new Date(a.StartDate);
+});
+
+var isadminuser=newsAdminRole.filter(e=> e.Page.toLowerCase() == filterBy1 && !e.Delete ).map(data => data.Email.toLowerCase()).includes(loggedUserMail.toLowerCase())?true:false;
+var isAllPostsPage=pageName.toLowerCase().match('nextus-news|vistapoint-ops-updates|vistapoint-sales-updates|vistapoint-sales-nondel-updates|nextus-sales-updates|nextus-ops-updates|corporate-news|corporate-servicing-updates|corporate-legalcompliance-updates|corporate-capitalmarkets-updates|corporate-lockdesk-updates|corporate-finance-updates|corporate-accounting-updates|corporate-officeadmin-updates|corporate-credit-updates|corporate-clientadmin-updates|corporate-clientservices-updates|markets-news')?true:false;
+
+if (newsData.length > 0) {
+$('.next-us').show();
+for (i=0; i < newsData.length; i++){
+let userEmail = newsData[i].NewsPostedByEmail ? newsData[i].NewsPostedByEmail : "No Email";
+let userName = newsData[i].NewsPostedByName ? newsData[i].NewsPostedByName : "No Name";
+let postDate = `${timeSince(new Date(newsData[i].StartDate))}`
+let iconPath 
+
+let blogContent = `<div class="vista-blog"><div class="blog-content"><h4 style="margin-bottom:3px"><a href="#" style="text-decoration:underline" onclick="blogDetails(${newsData[i].ID},'${title}','${userName}','news')">${newsData[i].Title}</a><span style="margin-bottom:2px;color: black;font-weight: 400;padding-left: 10px;font-size: 16px;">${ userName} - ${postDate.toString()}</span></h4><p>${newsData[i].ShortDescription!=null? newsData[i].ShortDescription :` `}</p></div></div>`
+
+$('.nextUs-list').append(blogContent);
+}
+
+$('.next-us').prev().show();
+$('.next-us').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+if(isadminuser){// || isAllPostsPage){
+    $('.next-us .blog-head a').show()
+    $('.next-us .blog-head').show()
+}
+else{
+    $('.next-us .blog-head a').hide()
+    $('.next-us .blog-head').hide()
+}
+
+}  else { 
+    
+    let blogContent = `<p style="text-align:center">No data available</p>`
+    $('.nextUs-list').append(blogContent);
+
+    if(isadminuser){// || isAllPostsPage){
+        $('.next-us').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+        $('.next-us .blog-head a').show();
+        $('.next-us .blog-head').show();
+        $('.next-us').prev().show();
+        $('.next-us').show();
+    }
+    else{
+        $('.next-us .blog-head a').hide()
+        $('.next-us .blog-head').hide()
+        $('.next-us').prev().hide();
+    }
+    $('.next-us .blog-wrap').hide();     
+    $('.next-us .archive-list-link').hide();
+    
+
+    }
+}
+var filterBy1 = (pageName.toLowerCase() == 'nextus-news-archive' || pageName.toLowerCase() == 'nextus-news' || pageName.toLowerCase() == 'nextushome') ?  'nextushome' : 'vistapointhome';
+if(pageName.toLowerCase().match('vistapoint-ops|vistapoint-ops-updates|vistapoint-ops-archive')){ filterBy1= 'vistapoint-ops'} 
+if(pageName.toLowerCase().match('vistapoint-sales|vistapoint-sales-updates|vistapoint-sales-archive')) {filterBy1= 'vistapoint-sales'}
+if(pageName.toLowerCase().match('vistaPoint-sales-nondel|vistaPoint-sales-nondel-updates|vistaPoint-sales-nondel-archive')) {filterBy1= 'vistapoint-sales-nondel'}
+if(pageName.toLowerCase().match('nextus-sales|nextus-sales-updates|nextus-sales-archive')) {filterBy1= 'nextus-sales'}
+if(pageName.toLowerCase().match('nextus-ops|nextus-ops-updates|nextus-ops-archive')){ filterBy1= 'nextus-ops'} 
+if(pageName.toLowerCase().match('corporatehome|corporate-news|corporate-news-archive')) {filterBy1= 'corporatehome'}
+if(pageName.toLowerCase().match('servicing|corporate-servicing-updates|corporate-servicing-archive')) {filterBy1= 'servicing'}
+if(pageName.toLowerCase().match('legal-compliance|corporate-legalcompliance-updates|corporate-legalcompliance-archive')) {filterBy1= 'legal-compliance'}
+if(pageName.toLowerCase().match('capitalmarkets|corporate-capitalmarkets-updates|corporate-capitalmarkets-archive')) {filterBy1= 'capitalmarkets'}
+if(pageName.toLowerCase().match('lockdesk|corporate-lockdesk-updates|corporate-lockdesk-archive')) {filterBy1= 'lockdesk'}
+if(pageName.toLowerCase().match('finance|corporate-finance-updates|corporate-finance-archive')) {filterBy1= 'finance'}
+if(pageName.toLowerCase().match('accounting|corporate-accounting-updates|corporate-accounting-archive')) {filterBy1= 'accounting'}
+if(pageName.toLowerCase().match('office-admin|corporate-officeadmin-updates|corporate-officeadmin-archive')) {filterBy1= 'office-admin'}
+if(pageName.toLowerCase().match('credit|corporate-credit-updates|corporate-credit-archive')) {filterBy1= 'credit'}
+if(pageName.toLowerCase().match('client-admin|corporate-clientadmin-updates|corporate-clientadmin-archive')) {filterBy1= 'client-admin'}
+if(pageName.toLowerCase().match('client-services|corporate-clientservices-updates|corporate-clientservices-archive')) {filterBy1= 'client-services'}
+if(pageName.toLowerCase().match('marketing|corporate-marketing-updates|corporate-marketing-archive')) {filterBy1= 'marketing'}
+if(pageName.toLowerCase().match('markets| markets-news-archive|markets-news')) {filterBy1= 'markets'}
+if(pageName.toLowerCase().match('data')) {filterBy1= 'data'}
+
+function handleResData() {
+  $.ajax({
+    url: resourcePath,
+    headers: {
+      Accept: 'application/json;odata=verbose',
+    },
+    async: false,
+    success: function (data) {
+      resData = [...resData, ...data.d.results];
+      if (data.d.__next) {
+        resourcePath = data.d.__next;
+        handleResData();
+        return;
+      }
+      
+    },
+    error: function (data) {
+      console.log('An error occurred. Please try again.');
+    },
+  });
+  
+}
+handleResData();
+
+function displayResData() {
+var filterBy1 = (pageName.toLowerCase() == 'nextus-news-archive' || pageName.toLowerCase() == 'nextus-news' || pageName.toLowerCase() == 'nextushome') ?  'nextushome' : 'vistapointhome';
+if(pageName.toLowerCase().match('vistapoint-ops|vistapoint-ops-updates|vistapoint-ops-archive')){ filterBy1= 'vistapoint-ops'} 
+if(pageName.toLowerCase().match('vistapoint-sales|vistapoint-sales-updates|vistapoint-sales-archive')) {filterBy1= 'vistapoint-sales'}
+if(pageName.toLowerCase().match('vistapoint-sales-nondel|vistapoint-sales-nondel-updates|vistapoint-sales-nondel-archive')) {filterBy1= 'vistapoint-sales-nondel'}
+if(pageName.toLowerCase().match('nextus-sales|nextus-sales-updates|nextus-sales-archive')) {filterBy1= 'nextus-sales'}
+if(pageName.toLowerCase().match('nextus-ops|nextus-ops-updates|nextus-ops-archive')){ filterBy1= 'nextus-ops'} 
+//if(pageName.toLowerCase().match('nextus-retail-sales|nextus-retail-sales-updates|nextus-retail-sales-archive')) {filterBy1= 'nextus-retail-sales'}
+if(pageName.toLowerCase().match('corporatehome|corporate-news|corporate-news-archive')) {filterBy1= 'corporatehome'}
+if(pageName.toLowerCase().match('servicing|corporate-servicing-updates|corporate-servicing-archive')) {filterBy1= 'servicing'}
+if(pageName.toLowerCase().match('legal-compliance|corporate-legalcompliance-updates|corporate-legalcompliance-archive')) {filterBy1= 'legal-compliance'}
+if(pageName.toLowerCase().match('capitalmarkets|corporate-capitalmarkets-updates|corporate-capitalmarkets-archive')) {filterBy1= 'capitalmarkets'}
+if(pageName.toLowerCase().match('lockdesk|corporate-lockdesk-updates|corporate-lockdesk-archive')) {filterBy1= 'lockdesk'}
+if(pageName.toLowerCase().match('finance|corporate-finance-updates|corporate-finance-archive')) {filterBy1= 'finance'}
+if(pageName.toLowerCase().match('accounting|corporate-accounting-updates|corporate-accounting-archive')) {filterBy1= 'accounting'}
+if(pageName.toLowerCase().match('office-admin|corporate-officeadmin-updates|corporate-officeadmin-archive')) {filterBy1= 'office-admin'}
+if(pageName.toLowerCase().match('credit|corporate-credit-updates|corporate-credit-archive')) {filterBy1= 'credit'}
+if(pageName.toLowerCase().match('client-admin|corporate-clientadmin-updates|corporate-clientadmin-archive')) {filterBy1= 'client-admin'}
+if(pageName.toLowerCase().match('client-services|corporate-clientservices-updates|corporate-clientservices-archive')) {filterBy1= 'client-services'}
+if(pageName.toLowerCase().match('marketing|corporate-marketing-updates|corporate-marketing-archive')) {filterBy1= 'marketing'}
+if(pageName.toLowerCase().match('markets| markets-news-archive|markets-news')) {filterBy1= 'markets'}
+if(pageName.toLowerCase().match('data')) {filterBy1= 'data'}
+
+var isadminuser=resAdminRole.filter(e=> e.Pages.toLowerCase() == pageName.toLowerCase() && !e.Delete ).map(data => data.Email.toLowerCase()).includes(loggedUserMail.toLowerCase())?true:false;
+var isAllPostsPage=pageName.toLowerCase().match('nextus-news|vistapoint-ops-updates|vistapoint-sales-updates|vistapoint-sales-nondel-updates|nextus-sales-updates|nextus-ops-updates|corporate-news|corporate-servicing-updates|corporate-legalcompliance-updates|corporate-capitalmarkets-updates|corporate-lockdesk-updates|corporate-finance-updates|corporate-accounting-updates|corporate-officeadmin-updates|corporate-credit-updates|corporate-clientadmin-updates|corporate-clientservices-updates')?true:false;
+
+ let extractData = catTitle.filter(data => data.Page.toLowerCase() == pageName.toLowerCase())
+ extractData.sort(GetSortOrder('Order0'))
+   if (extractData.length > 0) {
+extractData.map( (data,index) => { $(`.resource-wrap .category:nth-child(${index+1}) .title`).html(data.Title);$(`.resource-wrap .category:nth-child(${index+1}) ul`).attr('id',data.Title.toUpperCase()) } )
+  }
+
+let disData = resData.filter((data) => (data.Page.toLowerCase() == pageName.toLowerCase()) && data.Active && !data.Delete && currentDate > new Date(data.EffectiveFrom).getTime() && (currentDate < new Date(data.ExpiryOn).getTime() ||data.ExpiryOn == null))
+disData.sort(GetSortOrder('Order0'))
+if (disData.length > 0) {
+disData.map(function (data) {
+      let content = `<li><a href="${data.URL}" target="_blank" role="button" data-interception="off">${data.Title}</a></li>`;
+      $(`#${data.Catagory.toUpperCase()}`).append(content);
+    });
+
+$('.resource-container').prev().show();
+$('.resource-container').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+if(isadminuser){// || isAllPostsPage){
+    $('.resource-container .blog-head a').show()
+    $('.resource-container .blog-head').show()
+}
+else{
+    $('.resource-container .blog-head a').hide()
+    $('.resource-container .blog-head').hide()
+}
+
+} else {
+
+    if(isadminuser){// || isAllPostsPage){
+        $('.resource-container').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+        $('.resource-container .blog-head a').show();
+        $('.resource-container .blog-head').show();
+        $('.resource-container').prev().show();
+        $('.resource-container').show();
+    }
+    else{
+        $('.resource-container .blog-head a').hide()
+        $('.resource-container .blog-head').hide()
+        $('.resource-container').prev().hide();
+        $('.resource-container').hide();
+    }
+    $('.resource-container .resource-wrap').hide();     
+    $('.resource-container .archive-list-link').hide();
+
+}
+
+}
+
+
+function announceOnHR() {
+let newsData = announceNote.filter(items => items.Publish && !items.Delete && new Date(items.StartDate).getTime() < currentDate)
+newsData.sort(function(a,b){
+return new Date(b.StartDate) - new Date(a.StartDate);
+});
+var isadminuser= announceAdminRole.map(data => data.Email.toLowerCase()).includes(loggedUserMail.toLowerCase())?true:false;
+var isAllPostsPage=pageName.toLowerCase().match('announcement-list')?true:false;
+
+if (newsData.length > 0) {
+$('.HR-Announce').show();
+for (i=0; i < newsData.length; i++){
+if(i>1) break;    
+let userName = newsData[i].PostedByName ? newsData[i].PostedByName : "No Name";
+let postDate = `${timeSince(new Date(newsData[i].StartDate))}`
+let iconPath = "https://vistapointmtg.sharepoint.com/sites/VistaPointMortgageIntranet/Style%20Library/img/icons/vp-nextus-sharepoint-icon.png"
+let blogContent = `<div class="vista-blog"><div class="blog-content"><h4 style="margin-bottom:3px"><a href="#" style="text-decoration:underline" onclick="annDetails(${newsData[i].ID},'Announcement','${userName}')">${newsData[i].Title}</a></h4><p style="margin-bottom:2px;">${userName} - ${postDate.toString()}</p><p>${newsData[i].Description.replace(/<[^>]*>?/gm, '')}</p></div></div>`
+
+
+$('.HR-Announce-list').append(blogContent);
+}
+$('.HR-Announce').prev().show();
+$('.HR-Announce').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+if(isadminuser){// || isAllPostsPage){
+    $('.HR-Announce .blog-head a').show()
+    $('.HR-Announce .blog-head').show()
+}
+else{
+    $('.HR-Announce .blog-head a').hide()
+    $('.HR-Announce .blog-head').hide()
+}
+}else { 
+    let blogContent = `<p style="text-align:center">No data available</p>`
+    //$('.archive-list-link').hide();
+    $('.HR-Announce-list').append(blogContent);
+
+    if(isadminuser){// || isAllPostsPage){
+        $('.HR-Announce').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+        $('.HR-Announce .blog-head a').show();
+        $('.HR-Announce .blog-head').show();
+        $('.HR-Announce').prev().show();
+        $('.HR-Announce').show();
+    }
+    else{
+        $('.HR-Announce .blog-head a').hide()
+        $('.HR-Announce .blog-head').hide()
+        $('.HR-Announce').prev().hide();
+    }
+    //$('.HR-Announce .blog-wrap').hide();     
+    $('.HR-Announce .archive-list-link').hide();
+
+    }
+}
+
+function allAnnounceOnHR() {
+let newsData = announceNote.filter(items => items.Publish && !items.Delete && new Date(items.StartDate).getTime() < currentDate)
+newsData.sort(function(a,b){
+return new Date(b.StartDate) - new Date(a.StartDate);
+});
+var isadminuser= announceAdminRole.map(data => data.Email.toLowerCase()).includes(loggedUserMail.toLowerCase())?true:false;
+var isAllPostsPage=pageName.toLowerCase().match('announcement-list')?true:false;
+
+if (newsData.length > 0) {
+$('.HR-Announce').show();
+for (i=0; i < newsData.length; i++){
+let userName = newsData[i].PostedByName ? newsData[i].PostedByName : "No Name";
+let postDate = `${timeSince(new Date(newsData[i].StartDate))}`
+
+let blogContent = `<div class="vista-blog"><div class="blog-content"><h4 style="margin-bottom:3px"><a href="#" style="text-decoration:underline" onclick="annDetails(${newsData[i].ID},'Announcement','${userName}')">${newsData[i].Title}</a></h4><p style="margin-bottom:2px;">${userName} - ${postDate.toString()}</p><p>${newsData[i].Description.replace(/<[^>]*>?/gm, '')}</p></div></div>`
+$('.HR-Announce-list').append(blogContent);
+}
+$('.HR-Announce').prev().show();
+$('.HR-Announce').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+if(isadminuser){// || isAllPostsPage){
+    $('.HR-Announce .blog-head a').show()
+    $('.HR-Announce .blog-head').show()
+}
+else{
+    $('.HR-Announce .blog-head a').hide()
+    $('.HR-Announce .blog-head').hide()
+}
+}else { 
+    
+    let blogContent = `<p style="text-align:center">No data available</p>`
+    $('.archive-list-link').hide();
+    $('.HR-Announce-list').append(blogContent);
+
+    if(isadminuser){// || isAllPostsPage){
+        $('.HR-Announce').wrap('<div class="wrapper"><div><div class="wrapper-line"></div></div></div>');
+        $('.HR-Announce .blog-head a').show();
+        $('.HR-Announce .blog-head').show();
+        $('.HR-Announce').prev().show();
+        $('.HR-Announce').show();
+    }
+    else{
+        $('.HR-Announce .blog-head a').hide()
+        $('.HR-Announce .blog-head').hide()
+        $('.HR-Announce').prev().hide();
+    }
+    //$('.HR-Announce .blog-wrap').hide();     
+    $('.HR-Announce .archive-list-link').hide();
+
+    }
+}
+
+
+function annDetails(id,title,username){
+let data = announceNote.filter(items => items.ID == id)
+let startDate = new Intl.DateTimeFormat('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' }).format(new Date(data[0].StartDate))
+let content = `<div class="header-wrap"><div class="title">${data[0].Title}</div><div class="date">${startDate}</div></div><div class="desc">${data[0].Description}</div>`
+let popupTitle = `<div class="title-wrap"><h3>${title}</h3><span>${username}</span></div>`
+$('#announceModel .modal-title').html(popupTitle);
+$('#announceModel .modal-body').html(content);
+$('#announceModel .modal-body a').attr('target','_blank');
+$('#announceModel .modal-body a').css({'font-weight':'500','text-decoration':'underline'});
+$('#announceModel').modal('show')
+}
+
+$( document ).ready(function() {
+            var divAllPowerAppsheadings= document.querySelectorAll('.primary-container');
+            if(divAllPowerAppsheadings.length>0){
+                for(i=0;i<divAllPowerAppsheadings.length;i++){
+                    //if(divAllPowerAppsheadings[i].closest(".root-76").classList!=null){
+                    if(divAllPowerAppsheadings[i]!=null && divAllPowerAppsheadings[i].closest(".root-76")!=null && divAllPowerAppsheadings[i].closest(".root-76").classList!=null){  
+                        divAllPowerAppsheadings[i].closest(".root-76").classList.remove("root-76");                 
+                    }
+                }
+            }
+            //document.querySelector(".primary-container1").closest(".root-76").classList.remove("root-76");
+        });
+
+
+
+
+///////////////////////////////
+
+
+
+
+
+        ////quicklink.js//////////////////////////////////
+
+
+
+
+
+
+
+
+
+        var webAbsoluteUrl = _spPageContextInfo.webAbsoluteUrl;
+var defaultbglink=''+webAbsoluteUrl+'/Style%20Library/img/vpm-Connect-Point-background.jpg';
+var addImg = `<img src="${webAbsoluteUrl}/Style%20Library/img/icons/vp-nextus-sharepoint-icon.png" width="25px"><span class="_2tvCNqil81Lsi6owqrTDMq">Connect Point</span>`;
+    $('#leftRegion a').html(addImg);
+    $('#leftRegion a span').html('Connect Point');
+    $('#leftRegion a').attr("href", "javascript:void(0)");
+
+var loggedUserPath = _spPageContextInfo.webAbsoluteUrl + "/_api/web/getuserbyid(" + _spPageContextInfo.userId + ")";
+var loggedUserMail,myEmail=[],noAccessAssignedYet=false,hasAccess=false,isApprovedPage,nogroupAccess=false,notAddedMember=false,noAccessToGroup=false,noSubMenuAccess=false;
+var quickLinks = [],Gmember = []
+var linkname='',parentpage='',menuname='',submenuname='';
+var bglink='',parentbglink='',childbglink='';
+var backgroundImageList=[],backgroundImageListFromParent=[];
+var groupNameList=[],subMenuAccessForAllGroups=[],subMenuLinkList=[],distinctGroupNameList;
+var refinedquicklinklist=[], distinctQuickLink=[];
+var GMemberspath = webAbsoluteUrl+"/_api/lists/getbytitle('List of Group Members')/items";
+var qlPath = `${webAbsoluteUrl}/_api/lists/getbytitle('Quick Links')/items`;
+var qSubMenuLinkList=`${webAbsoluteUrl}/_api/lists/getbytitle('Manage Sub Menu')/items`;
+var qBackgroundImageList=webAbsoluteUrl+"/_api/lists/getbytitle('Manage Screen Background')/items";    
+
+var currentDate = new Date(new Date().toLocaleString("en-US", {
+    timeZone: "America/Los_Angeles"
+})).getTime();
+if(_spPageContextInfo.userEmail!=''){
+myEmail.push(_spPageContextInfo.userEmail.toLocaleLowerCase());
+}
+console.log('userEmail: '+_spPageContextInfo.userEmail)
+console.log('userLoginName: '+_spPageContextInfo.userLoginName)
+console.log('userPrincipalName: '+_spPageContextInfo.userPrincipalName)
+if(_spPageContextInfo.userLoginName!='' && _spPageContextInfo.userEmail.toLocaleLowerCase()!=_spPageContextInfo.userLoginName.toLocaleLowerCase()){
+    myEmail.push(_spPageContextInfo.userLoginName.toLocaleLowerCase())
+}
+if(_spPageContextInfo.userPrincipalName!='' && myEmail.indexOf(_spPageContextInfo.userPrincipalName.toLocaleLowerCase())==-1){
+    myEmail.push(_spPageContextInfo.userPrincipalName.toLocaleLowerCase());
+}
+//debugger
+var pageName = window.location.pathname.split("/").pop().split(".").shift();
+pageName == "ProjectHome" || pageName == "VistaPointMortgageDevelopment" || pageName=='VistaPointMortgageIntranet'? pageName = "Home" : pageName;
+
+var fulllink=window.location.pathname.indexOf('?')!=-1?window.location.pathname.split('?').pop():window.location.pathname;
+fulllink=fulllink.split('/').pop();
+
+if(pageName.toLowerCase().match('data') || pageName.toLocaleLowerCase()=='data'){ linkname='data'; parentpage='data';menuname='data'}
+if(pageName.toLowerCase().match('projecthome|projecthome_old|projecthome_old_home|archived%20agenda') || pageName.toLocaleLowerCase()=='home'){ linkname='home'; parentpage='home';menuname='home'}
+else if(pageName.toLowerCase().match('vistapointhome|vistapoint-news|vistapoint-news-archive|vistapoint-ops|vistapoint-ops-archive|vistapoint-sales|vistapoint-sales-archive|vistapoint-metrics|vistapoint-metrics-archive')){ parentpage='vista point home';
+if(pageName.toLowerCase().match('vistapointhome|vistapoint-news|vistapoint-news-archive')){menuname='vista point home';}
+    if(pageName.toLowerCase().match('vistapoint-news|vistapoint-news-archive')){ linkname='vistapoint news';}
+    else if(pageName.toLowerCase().match('vistapoint-ops|vistapoint-ops-updates|vistapoint-ops-archive')){ linkname='vistapoint ops';submenuname='vistapoint ops';}
+    else if(pageName.toLowerCase().match('vistapoint-sales-nondel|vistapoint-sales-nondel-updates|vistapoint-sales-nondel-archive')){ linkname='vistapoint sales nondel';submenuname='vistaPoint sales nondel';}
+    else if(pageName.toLowerCase().match('vistapoint-sales|vistapoint-sales-updates|vistapoint-sales-archive')){ linkname='vistapoint sales';submenuname='vistapoint sales';}
+    else if(pageName.toLowerCase().match('vistapoint-metrics|vistapoint-metrics-updates|vistapoint-metrics-archive')){ linkname='vistapoint metrics';submenuname='vistapoint metrics';}
+}
+else if(pageName.toLowerCase().match('nextushome|nextus-news|nextus-news-archive|nextus-ops|nextus-ops-updates|nextus-ops-archive|nextus-sales|nextus-sales-updates|nextus-sales-archive|nextus-retail-sales|nextus-retail-sales-updates|nextus-retail-sales-archive|nextus-metrics|nextus-metrics-updates|nextus-metrics-archive')){ parentpage='nextus home'; 
+if(pageName.toLowerCase().match('nextushome|nextus-news|nextus-news-archive')){menuname='nextus home'; }
+    if(pageName.toLowerCase().match('nextus-news|nextus-news-archive')){ linkname='nextus news'; }
+    else if(pageName.toLowerCase().match('nextus-ops|nextus-ops-updates|nextus-ops-archive')){linkname='nextus ops'; submenuname='nextus ops';}
+    else if(pageName.toLowerCase().match('nextus-sales|nextus-sales-updates|nextus-sales-archive')){ linkname='nextus sales'; submenuname='nextus sales';}
+    else if(pageName.toLowerCase().match('nextus-metrics|nextus-metrics-updates|nextus-metrics-archive')){linkname='nextus metrics'; submenuname='nextus metrics';}
+    else if(pageName.toLowerCase().match('nextus-retail-sales|nextus-retail-sales-updates|nextus-retail-sales-archive')){ linkname='nextus retail sales'; submenuname='nextus retail sales';}
+}
+
+else if(pageName.toLowerCase().match('corporatehome|corporate-news|corporate-news-archive|servicing|servicing-updates|servicing-updates-archive|legal-compliance|legal-compliance-updates|legal-compliance-updates-archive|capitalmarkets|capitalmarkets-updates|capitalmarkets-updates-archive|lockdesk|lockdesk-updates|lockdesk-updates-archive|finance|corporate-finance-updates|corporate-finance-archive|accounting|corporate-accounting-updates|corporate-accounting-archive|client-admin|corporate-clientadmin-updates|corporate-clientadmin-archive|marketing|corporate-marketing-updates|corporate-marketing-archive|client-services|corporate-clientservices-updates|corporate-clientservices-archive|credit|corporate-credit-updates|corporate-credit-archive|office-admin|corporate-officeadmin-updates|corporate-officeadmin-archive|media-corp1|media-corp2|media-nextus1|media-nextus2|media-vpm1|media-vpm2|nextUs_media_03|nextUs_media_04|nextus_media_05|nextus_media_06|vpm_media_01|vpm_media_02')){ parentpage='corporate home'; 
+if(pageName.toLowerCase().match('corporatehome|corporate-news|corporate-news-archive')){ menuname='corporate home'; }
+
+    if(pageName.toLowerCase().match('corporate-news|corporate-news-archive')){ linkname='corporate news'; }
+    else if(pageName.toLowerCase().match('servicing|servicing-updates|servicing-updates-archive')){linkname='servicing';submenuname='servicing'; }
+    else if(pageName.toLowerCase().match('legal-compliance|legal-compliance-updates|legal-compliance-updates-archive')){ linkname='legal compliance';submenuname='legal compliance'; }
+    else if(pageName.toLowerCase().match('capitalmarkets|capitalmarkets-updates|capitalmarkets-updates-archive')){linkname='capital markets';submenuname='capital markets'; }
+    else if(pageName.toLowerCase().match('lockdesk|lockdesk-updates|lockdesk-updates-archive')){linkname='lock desk'; submenuname='lock desk';}
+    else if(pageName.toLowerCase().match('finance|corporate-finance-updates|corporate-finance-archive')){linkname='finance';submenuname='finance'; }
+    else if(pageName.toLowerCase().match('accounting|corporate-accounting-updates|corporate-accounting-archive')){linkname='accounting';submenuname='accounting'; }
+    else if(pageName.toLowerCase().match('office-admin|corporate-officeadmin-updates|corporate-officeadmin-archive')){linkname='office admin';submenuname='office admin'; }
+    else if(pageName.toLowerCase().match('credit|corporate-credit-updates|corporate-credit-archive')){linkname='credit';submenuname='credit'; }
+    else if(pageName.toLowerCase().match('client-admin|corporate-clientadmin-updates|corporate-clientadmin-archive')){linkname='client admin';submenuname='client admin'; }
+    else if(pageName.toLowerCase().match('client-services|corporate-clientservices-updates|corporate-clientservices-archive')){linkname='client services';submenuname='client services'; }
+    else if(pageName.toLowerCase().match('media-corp1')){linkname='media corp1';submenuname='media corp1'; }
+    else if(pageName.toLowerCase().match('media-corp2')){linkname='media corp2';submenuname='media corp2'; }
+    else if(pageName.toLowerCase().match('media-nextus1')){linkname='media nextus1';submenuname='media nextus1'; }
+    else if(pageName.toLowerCase().match('media-nextus2')){linkname='media nextus2';submenuname='media nextus2'; }
+    else if(pageName.toLowerCase().match('media-vpm1')){linkname='media vpm1';submenuname='media vpm1'; }
+    else if(pageName.toLowerCase().match('media-vpm2')){linkname='media vpm2';submenuname='media vpm2'; }
+    else if(pageName.toLowerCase().match('marketing|corporate-marketing-updates|corporate-marketing-archive')){linkname='marketing';submenuname='marketing'; }
+}
+else if(pageName.toLowerCase().match('metrics|metrics-updates|metrics-archive|corp-metrics-production|corp-metrics-kpi')||pageName.toLowerCase().startsWith('corp-metrics')){  parentpage='metrics';menuname='metrics';
+    if(pageName.toLowerCase().match('corp-metrics-production')){ linkname='metrics production';}
+    else if(pageName.toLowerCase().match('corp-metrics-kpi')){ linkname='metrics kpi';}
+}
+else if(pageName.toLowerCase().match('humanresources|announcement-list|announcement-list-archive')){ linkname='human resources';parentpage= 'human resources';menuname= 'human resources'; }
+else if(pageName.toLowerCase().match('spotlight|details-page')){ parentpage='spotlight';menuname='spotlight'; }
+else if(pageName.toLowerCase().match('administration|manage%20banners|manage%20quarterlygoals')||pageName.toLowerCase().startsWith('manage%20')){ parentpage='administration'; menuname='administration'; 
+    if(pageName.toLowerCase().startsWith('manage%20')){ linkname='manage';}
+}
+else if(pageName.toLowerCase().match('markets|markets-news|markets-news-archive')){ linkname='markets';parentpage= 'markets';menuname= 'markets'; }
+debugger
+if(pageName.toLowerCase().match('nextUs_media_03'|'nextUs_media_04'|'nextus_media_05'|'nextus_media_06'|'vpm_media_01'|'vpm_media_02')){ parentpage='corporate home'; }
+if(pageName.toLowerCase().match('nextus_media_03')){linkname='media nextus3';submenuname='media nextus3'; }
+else if(pageName.toLowerCase().match('nextus_media_04')){linkname='media nextus4';submenuname='media nextus4'; }
+else if(pageName.toLowerCase().match('nextus_media_05')){linkname='media nextus5';submenuname='media nextus5'; }
+else if(pageName.toLowerCase().match('nextus_media_06')){linkname='media nextus6';submenuname='media nextus6'; }
+else if(pageName.toLowerCase().match('vpm_media_01')){linkname='vpm media1';submenuname='vpm media1'; }
+else if(pageName.toLowerCase().match('vpm_media_02')){linkname='vpm media2';submenuname='vpm media2'; }
+if(pageName.toLowerCase().match('data')){menuname='data';}
+
+$.ajax({
+    url: qlPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+    quickLinks = data.d.results.filter(res => (!res.Deleted && res.Active));
+    quickLinks = quickLinks.filter(res => ((new Date(new Date(res.StartDate).toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles"
+    })).getTime() < currentDate)) && ((new Date(new Date(res.EndDate).toLocaleString("en-US", {
+        timeZone: "America/Los_Angeles"
+    })).getTime() > currentDate) || res.EndDate == null));
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+$.ajax({
+    url: loggedUserPath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+
+        loggedUserMail = data.d.Email;
+        if(myEmail.includes(loggedUserMail)==false && loggedUserMail!=''){
+            myEmail.push(loggedUserMail);
+        }
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+//debugger
+var allemail='';
+if(myEmail.length>0 && myEmail[0]!=undefined && myEmail[0]!=null && myEmail[0]!=''){
+        for(i=0;i<myEmail.length;i++){
+            allemail+=`(EmployeeEmail eq '${myEmail[i]}')`;
+            if(i<myEmail.length-1){
+                allemail+=` or `;
+            }
+        }
+    }
+    console.log(allemail)
+//loggedUserMail='mediaview@vistapointmtg.com';//jelizabeth@vistapointmtg.com';
+//Check admin rights for Edit the website
+var editRights=[];
+var qAdminTeamList=`${webAbsoluteUrl}/_api/lists/getbytitle('Admin Team')//items?$select=Email&$filter=Email eq '${loggedUserMail}'`;
+//var qAdminTeamList=`${webAbsoluteUrl}/_api/lists/getbytitle('Admin Team')//items?$select=Email&$filter=('${allemail}')`;
+$.ajax({
+    url: qAdminTeamList,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        editRights = data.d.results;
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+
+$.ajax({
+    url: GMemberspath,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+    Gmember = data.d.results;
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+
+$.ajax({
+    url: qBackgroundImageList,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        backgroundImageList = data.d.results.filter(res => (!res.Delete) && res.Active);
+        
+    },
+    error: function (data) {
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+$.ajax({
+        url: qSubMenuLinkList,
+        headers: {
+            Accept: "application/json;odata=verbose"
+        },
+        async: false,
+        success: function (data) {
+            subMenuLinkList = data.d.results.filter(res=>(!res.Delete) && res.Active);
+        },
+        error: function (data) {
+            console.log("An error occurred. Please try again.");
+        }
+    });
+
+var openModelBox = (
+  name,
+  isIframe,
+  Url,
+  modelW,
+  iframeW,
+  iframeH,
+  closeFunc
+) => {
+
+  let content;
+  isIframe
+    ? (content = `<iframe src="${Url}" width="${iframeW}" height="${iframeH}" frameborder="0" allowtransparency="true">
+</iframe>`)
+    : (content = `<embed src="${Url}" frameborder="0" width="100%" height="600px">`);
+  let model = `<div class="modal fade" id="model-${name}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+<div class="modal-dialog" style="width:${modelW}">
+	<div class="modal-content">
+		<div class="modal-body" style="display:flex; justify-content:center">
+          ${content}
+              </div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal" onclick="closeModel('model-${name}')">Close</button>
+		</div>
+	</div>
+</div>
+</div>`;
+
+  $('body').append(model);
+  $('#model-' + name).modal('show');
+};
+
+function closeModel(modelID) {
+  $(`#${modelID}`).remove();
+  $('.modal-backdrop').remove();
+}
+function GetSortOrder(prop) {
+return function (a, b) {
+    if (a[prop] > b[prop]) {
+        return 1;
+    } else if (a[prop] < b[prop]) {
+        return -1;
+    }
+    return 0;
+}
+};
+
+function groupBy(items,propertyName)
+{
+    var result = [];
+    $.each(items, function(index, item) {
+       if ($.inArray(item[propertyName], result)==-1) {
+          result.push(item[propertyName]);
+       }
+    });
+    return result;
+}
+
+function leftJoin(left, right, left_id, right_id) {
+    var result = [];
+    _.each(left, function (litem) {
+        var f = _.filter(right, function (ritem) {
+            return ritem[right_id] == litem[left_id];
+        });
+        if (f.length == 0) {
+            f = [{}];
+        }
+        _.each(f, function (i) {
+            var newObj = {};
+            _.each(litem, function (v, k) {
+                newObj[k + "1"] = v;
+            });
+            _.each(i, function (v, k) {
+                newObj[k + "2"] = v;
+            });
+            result.push(newObj);
+        });
+    });
+    return result;
+}
+
+//give/revoke edit rights
+if(editRights!=null && editRights.length>0){
+    $('button[title="Settings"]').show();
+    $('div[id="spCommandBar"]').show();
+}
+else{
+    $('button[title="Settings"]').hide();
+    $('div[id="spCommandBar"]').hide();
+}
+//console.log(loggedUserMail);
+
+var qgroupname='';
+var singlelinkContent=``;
+//var qGroupNameList=`${webAbsoluteUrl}/_api/lists/getbytitle('List of Group Members')//items?$select=SecurityGroup,EmployeeEmail&$filter=(EmployeeEmail eq '${loggedUserMail}') and (Delete eq null or Delete eq 'No')`;
+var qGroupNameList=`${webAbsoluteUrl}/_api/lists/getbytitle('List of Group Members')//items?$select=SecurityGroup,EmployeeEmail&$filter=(${allemail}) and (Delete eq null or Delete eq 'No')`;
+//console.log(qGroupNameList)
+$.ajax({
+    url: qGroupNameList,
+    headers: {
+        Accept: "application/json;odata=verbose"
+    },
+    async: false,
+    success: function (data) {
+        //debugger
+        groupNameList = data.d.results;
+        if(groupNameList.length>0){
+        distinctGroupNameList=groupBy(groupNameList,'SecurityGroup');
+        }
+        else{
+            nogroupAccess=true;
+            noAccessAssignedYet=true;
+        }
+    },
+    error: function (data) {
+        //debugger
+        console.log("An error occurred. Please try again.");
+    }
+});
+
+if(groupNameList.length==0){
+noAccessAssignedYet=true;
+nogroupAccess=true;
+}
+if(groupNameList.length>0){
+    if(distinctGroupNameList.length>0 && distinctGroupNameList[0]!=undefined && distinctGroupNameList[0]!=null && distinctGroupNameList[0]!=''){
+        for(i=0;i<distinctGroupNameList.length;i++){
+            qgroupname+=`(SecurityGroup eq '${distinctGroupNameList[i]}')`;
+            if(i<distinctGroupNameList.length-1){
+                qgroupname+=` or `;
+            }
+        }
+    }
+
+    var qlSubMenuAccessPath = `${webAbsoluteUrl}/_api/lists/getbytitle('Manage Screen Access Permission')/items?$select=SecurityGroup,Menu,Title,Delete,Active&$top=2000&$filter=(${qgroupname})`;
+
+    $.ajax({
+        url: qlSubMenuAccessPath,
+        headers: {
+            Accept: "application/json;odata=verbose"
+        },
+        async: false,
+        success: function (data) {
+            //debugger
+            subMenuAccessForAllGroups = data.d.results.filter(res => (!res.Delete) && res.Active);
+            if(subMenuAccessForAllGroups.length==0){
+                noAccessAssignedYet=true;
+            }
+        },
+        error: function (data) {
+            console.log("An error occurred. Please try again.");
+        }
+    });
+    if(subMenuAccessForAllGroups.length==0){
+        noAccessAssignedYet=true;
+    }
+    if(subMenuAccessForAllGroups.length>0){
+    distinctQuickLink=groupBy(subMenuAccessForAllGroups,'Menu');
+    refinedquicklinklist=distinctQuickLink.map(res => 
+            quickLinks.some(l => l.Title === res) ? 
+                quickLinks.filter(l => l.Title === res).map(l => ({l})) : 
+                null
+            ).reduce((a,b)=> a.concat(b),[]);
+            refinedquicklinklist=refinedquicklinklist.filter(e=>e);
+            refinedquicklinklist=refinedquicklinklist.sort((a,b)=>a.l.OrderNumber-b.l.OrderNumber);
+
+    if(menuname && subMenuAccessForAllGroups.filter(data=>data.Menu.toLowerCase()==menuname.toLowerCase()).length>0){
+        hasAccess=true;
+    }
+    if(submenuname && subMenuAccessForAllGroups.filter(data=>data.Title && data.Title.toLowerCase()==submenuname.toLowerCase()).length>0){
+         hasAccess=true;
+     }
+    }
+     
+}
+
+    //debugger
+
+     if(subMenuLinkList.filter(data=>data.URL.Url.split('/').pop().toLocaleLowerCase()==fulllink.toLocaleLowerCase()).length>0){
+             isApprovedPage=true;             
+     }
+     else if(quickLinks.filter(data=>data.URL.Url.split('/').pop().toLocaleLowerCase()==fulllink.toLocaleLowerCase()).length>0){
+             isApprovedPage=true;             
+     }
+     else{
+         isApprovedPage=false;
+     }
+
+    //debugger
+     
+     if(isApprovedPage==false){
+         hasAccess=true;
+     }
+    // //  if(hasAccess && pageName.toLocaleLowerCase()=='accessdenied.aspx'){
+    // //      window.location.replace(webAbsoluteUrl+ "/SitePages/ProjectHome.aspx");
+    // //  }
+    // //  else
+    if(noAccessAssignedYet==true && isApprovedPage==true && (pageName.toLowerCase()!='home')){
+        window.location.replace(webAbsoluteUrl+ "/SitePages/ProjectHome.aspx");
+    }
+    else if(hasAccess==false && (pageName.toLowerCase()!='home')){
+        window.location.replace(webAbsoluteUrl+ "/SitePages/ProjectHome.aspx");
+    }
+//debugger;
+if(groupNameList.length>0 && refinedquicklinklist.length>0){
+        //check current page has access parent access
+        if(refinedquicklinklist.filter(res=>res.l.Title.toLowerCase()==parentpage).length>0){
+            backgroundImageListFromParent=backgroundImageList.filter(res=>res.Menu.toLowerCase()==parentpage);
+            parentbglink=backgroundImageList.filter(res=>res.Menu.toLowerCase()==parentpage && (res.SubMenu==null || res.SubMenu==undefined ||res.SubMenu=='')).length>0?backgroundImageList.filter(res=>res.Menu.toLowerCase()==parentpage && (res.SubMenu==null || res.SubMenu==undefined ||res.SubMenu==''))[0].BackgroundImage.Url:'';
+        }
+
+        for(i=0;i < refinedquicklinklist.length; i++){
+            singlelinkContent+=`<div class="flip-card dropdown">`;
+            var headerRecord=quickLinks.filter(res=>res.Title==refinedquicklinklist[i].l.Title);
+            if(headerRecord.length>0){
+            var headerLink=headerRecord[0].URL.Url;
+            if(headerRecord[0].LinkType.toLowerCase().match('power apps')){
+                if(headerRecord[0].Title == "The Collaborator")  {      
+            singlelinkContent+=`<a href="javascript:void(0)" onclick="openModelBox('${headerRecord[0].Title.trim().replace(/ /g,"-")}',true,'${headerLink}','314px','100%','500px','')" alt="${headerRecord[0].Title}">`;
+            } else {
+                singlelinkContent+=`<a href="javascript:void(0)" onclick="openModelBox('${headerRecord[0].Title.trim().replace(/ /g,"-")}',true,'${headerLink}','48%','100%','500px','')" alt="${headerRecord[0].Title}">`;
+            }}
+            else{
+            singlelinkContent+=`<a href="${headerLink}" target="${headerRecord[0].LinkType.toLowerCase().match('external url')?'_blank':'_self'}" data-interception="off" alt="${headerRecord[0].Title}" >`;
+            }
+
+            singlelinkContent+=`<div class="flip-card-icon">
+                <div class="">
+                    <img src="${headerRecord[0].DisplayImage.Url}" alt="${headerRecord[0].Title}" style="width:100%" title="${headerRecord[0].Title}" />
+                </div>
+            </div>`;
+        if(subMenuAccessForAllGroups.length>0){
+            var submenuListByQuickLink=subMenuAccessForAllGroups.filter(res=>res.Menu==refinedquicklinklist[i].l.Title);
+            var distinctSubMenuList=groupBy(submenuListByQuickLink,'Title');
+            distinctSubMenuList=distinctSubMenuList.filter(e=>e);
+
+            var refinedsubMenuLinkList=distinctSubMenuList.map(res => 
+            subMenuLinkList.some(l => l.SubMenu === res) ? 
+                subMenuLinkList.filter(l => l.SubMenu === res).map(l => ({l})) : 
+                null
+            ).reduce((a,b)=> a.concat(b),[]);
+            refinedsubMenuLinkList=refinedsubMenuLinkList.filter(e=>e);
+            refinedsubMenuLinkList=refinedsubMenuLinkList.sort((a,b)=>a.l.OrderNumber-b.l.OrderNumber);
+
+
+            if(refinedsubMenuLinkList.length>0){
+
+                //check current page has access child access
+                if(refinedsubMenuLinkList.filter(res=>res.l.SubMenu.toLowerCase()==linkname).length>0){
+                    childbglink=backgroundImageListFromParent.filter(res=>res.SubMenu !=null && res.SubMenu!=undefined && res.SubMenu!='' && res.SubMenu.toLowerCase()==linkname).length>0?backgroundImageListFromParent.filter(res=>res.SubMenu !=null && res.SubMenu!=undefined && res.SubMenu!='' && res.SubMenu.toLowerCase()==linkname)[0].BackgroundImage.Url:'';
+                }
+                singlelinkContent+=`<ul class="dropdown-menu">`;   
+                for(k=0;k < refinedsubMenuLinkList.length; k++){
+                    var subMenuRecord= subMenuLinkList.filter(res=>res.Title==refinedquicklinklist[i].l.Title && res.SubMenu== refinedsubMenuLinkList[k].l.SubMenu);
+                    if(subMenuRecord.length>0){
+                    var subMenuLink= subMenuRecord[0].URL.Url;                
+                    singlelinkContent+=`<li><a href="${subMenuLink}" target="_self" data-interception="off" >${subMenuRecord[0].SubMenu}</a></li>`;
+                    }
+                }
+                singlelinkContent+=`</ul>`;
+            }
+        }
+            singlelinkContent+=`</a>`;
+        }
+        singlelinkContent+=`</div>`;
+    }   
+    //singlelinkContent+=`</div>`;  
+    
+}
+else{
+//debugger
+var headerRecord=quickLinks.filter(res=>res.Title=='Home');
+var headerLink=headerRecord[0].URL.Url;
+singlelinkContent+=`<div class="flip-card dropdown">`;
+singlelinkContent+=`<a href="${headerLink}" target="${headerRecord[0].LinkType.toLowerCase().match('external url')?'_blank':'_self'}" data-interception="off" alt="${headerRecord[0].Title}" >`;
+singlelinkContent+=`<div class="flip-card-icon">
+                <div class="">
+                    <img src="${headerRecord[0].DisplayImage.Url}" alt="${headerRecord[0].Title}" style="width:100%" title="${headerRecord[0].Title}" />
+                </div>
+            </div>`;
+singlelinkContent+=`</a>`;
+singlelinkContent+=`</div>`;
+parentbglink=backgroundImageList.filter(res=>res.Menu.toLowerCase()=='home' && (res.SubMenu==null || res.SubMenu==undefined ||res.SubMenu=='')).length>0?backgroundImageList.filter(res=>res.Menu.toLowerCase()=='home' && (res.SubMenu==null || res.SubMenu==undefined ||res.SubMenu==''))[0].BackgroundImage.Url:'';
+}
+if(parentbglink=='' && childbglink==''){ bglink=defaultbglink;}
+else if(parentbglink=='' && childbglink!==''){ bglink=childbglink;}
+else if(parentbglink!='' && childbglink==''){bglink=parentbglink;}
+else if(parentbglink!='' && childbglink!=''){bglink=childbglink;}
+$("body").css("background", "url(" + bglink + ")");
+$("body").css("background-size", "cover");
+$("body").css("background-color", "#fff");
+$('.flip-container').empty() //added by kavitha
+$('.flip-container').append(singlelinkContent);
+//}  
+
+function handleQuickLink() {
+
+if (quickLinks.length > 0){
+
+quickLinks.sort(GetSortOrder('OrderNumber'))
+
+for(i=0;i < quickLinks.length; i++){
+
+  let content = quickLinks[i].LinkType.toLowerCase() != 'power apps' ? `<div class="flip-card">
+<a href="${quickLinks[i].URL.Url}" target="_blank" data-interception="off" >
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img src="${quickLinks[i].DisplayImage.Url}" alt="${quickLinks[i].Title}" style="width:100%" />
+        </div>
+        <div class="flip-card-back">
+           ${quickLinks[i].HoveringImage ? `<img src="${quickLinks[i].HoveringImage.Url}" alt="${quickLinks[i].Title}" style="width:100%" />` : `<h5>${quickLinks[i].Title}</h5>`}
+        </div>
+    </div>
+</a>
+</div>`
+:
+`<div class="flip-card">
+<a href="javascript:void(0)" onclick="openModelBox('${quickLinks[i].Title.trim().replace(/ /g,"-")}',true,'${quickLinks[i].URL.Url}','314px','100%','500px','')">
+    <div class="flip-card-inner">
+        <div class="flip-card-front">
+            <img src="${quickLinks[i].DisplayImage.Url}" alt="${quickLinks[i].Title}" style="width:100%" />
+        </div>
+        <div class="flip-card-back">
+            ${quickLinks[i].HoveringImage ? `<img src="${quickLinks[i].HoveringImage.Url}" alt="${quickLinks[i].Title}" style="width:100%" />` : `<h5>${quickLinks[i].Title}</h5>`}
+        </div>
+    </div>
+</a>
+</div>
+`;
+
+  $('.flip-container').append(content);
+  }
+  }
+}
+
+
+//$( document ).ready(function() {
+    if(pageName.toLowerCase() =='projecthome'){
+        document.querySelector(".flip-container") && document.querySelector(".flip-container").closest(".ControlZone.ControlZone--clean") ?document.querySelector(".flip-container").closest(".ControlZone.ControlZone--clean").classList.add('navigator-parent-home'):null;
+        document.querySelector('*[data-viewport-id^="WebPart.PowerBIReportEmbedWebPart.internal."]') && document.querySelector('*[data-viewport-id^="WebPart.PowerBIReportEmbedWebPart.internal."]').closest(".CanvasZone.row.CanvasZone--alignment.CanvasZone--noMargin.CanvasZone--read")? document.querySelector('*[data-viewport-id^="WebPart.PowerBIReportEmbedWebPart.internal."]').closest(".CanvasZone.row.CanvasZone--alignment.CanvasZone--noMargin.CanvasZone--read").classList.add('power-bi'):null;
+    }
+    else{
+    document.querySelector(".flip-container") && document.querySelector(".flip-container").closest(".ControlZone.ControlZone--clean") ?document.querySelector(".flip-container").closest(".ControlZone.ControlZone--clean").classList.add('navigator-parent'):null;
+    document.querySelector('*[data-viewport-id^="WebPart.PowerAppPlayerWebPart.internal."]') && document.querySelector('*[data-viewport-id^="WebPart.PowerAppPlayerWebPart.internal."]').closest(".ControlZone.ControlZone--clean") ?document.querySelector('*[data-viewport-id^="WebPart.PowerAppPlayerWebPart.internal."]').closest(".ControlZone.ControlZone--clean").classList.add('box-wrapper'):null;
+        
+    }
+    
+    var divAllPowerAppsheadings= document.querySelectorAll('*[data-viewport-id^="WebPart.PowerBIReportEmbedWebPart.internal."]');
+        if(divAllPowerAppsheadings.length>0){
+            for(i=0;i<divAllPowerAppsheadings.length;i++){
+                if(divAllPowerAppsheadings[i].closest(".ControlZone.ControlZone--clean")!=null){
+                divAllPowerAppsheadings[i].closest(".ControlZone.ControlZone--clean").classList.add('report-wrapper');
+                }
+            }
+        }
+
+    var divAllPowerAppsheadings= document.querySelectorAll('*[data-viewport-id^="WebPart.PowerAppPlayerWebPart.internal."]');
+            if(divAllPowerAppsheadings.length>0){
+                for(i=0;i<divAllPowerAppsheadings.length;i++){
+                    divAllPowerAppsheadings[i].closest(".ControlZone.ControlZone--clean")? divAllPowerAppsheadings[i].closest(".ControlZone.ControlZone--clean").classList.add('box-wrapper'):null;
+                }
+            }
+
+    var divAllPowerAppsheadings= document.querySelectorAll('*[data-viewport-id^="WebPart.QuickLinksWebPart.internal."]');
+            if(divAllPowerAppsheadings.length>0){
+                for(i=0;i<divAllPowerAppsheadings.length;i++){
+                    divAllPowerAppsheadings[i].closest(".ControlZone.ControlZone--clean")? divAllPowerAppsheadings[i].closest(".ControlZone.ControlZone--clean").classList.add('list-wrapper'):null;
+                }
+            }
+
+
+$( document ).ready(function() {
+    var divheadings= document.querySelectorAll(".fontSizeXLargePlus");
+    if(divheadings.length>0){
+        for(i=0;i<divheadings.length;i++){
+            divheadings[i].closest(".ControlZone.ControlZone--clean") ? divheadings[i].closest(".ControlZone.ControlZone--clean").classList.add('head-align'):null;
+        }
+    }
+});
+
+if(pageName.toLowerCase().match('media-corp1|media-corp2|media-nextus1|media-nextus2|nextus_media_03|nextus_media_04|nextus_media_05|nextus_media_06|media-vpm1|media-vpm2')){
+if(loggedUserMail=='jelizabeth@vistapointmtg.com'||loggedUserMail=='kjeyaraj@vistapointmtg.com'||loggedUserMail=='VVinayagam@vistapointmtg.com'){ //||loggedUserMail=='VVinayagam@vistapointmtg.com'
+$('div[id="spCommandBar"]').show();
+}
+else{
+$('div[id="spCommandBar"]').hide();  
+}}
