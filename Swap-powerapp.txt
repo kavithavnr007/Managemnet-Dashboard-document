@@ -305,3 +305,380 @@ Notify(
 );
 
 
+
+
+
+
+////////////powerapp patch function
+
+
+
+
+If( ErrorMessage3.Text="Please Select future date", Notify("Please Select future date",NotificationType.Error,3000),
+
+If(ErrorMessage6.Text="Comments required" ,Notify("Comments required",NotificationType.Error,3000),
+    
+ClearCollect(Colerrorshow,Filter(Gallery3.AllItems, Label20.Text = "false"));
+If(CountRows(Colerrorshow)>0&& SortDescending1, Notify(
+    "Please fill required fields",
+    NotificationType.Error,
+    2000
+),
+
+If(SubmitForm(Form1_1),
+Set(loadscreen1,true);
+/*ForAll(
+   Gallery3.AllItems As colGriddata, 
+   Patch(
+      'Asset Request Items', 
+      {ID:colGriddata.ID},
+      {
+         'Request Items': items.Text
+      },
+{'Serial Number': DataCardValue3_1.Selected.'Serial Number'},
+{'Gate Pass No': TextInput8.Text},
+{'Way Bill No':TextInput9.Text}
+    
+   )
+)*/
+
+
+ClearCollect(colIsEmpty,Filter(Tempgatepass, 'Asset Tag'=Blank()|| 'Asset Tag'=""));
+If(CountRows(colIsEmpty)=0,
+If(SortDescending1,
+ClearCollect(TempCol, Gallery6.AllItems);
+UpdateIf(TempCol, true, { 'Request Items':Request_Item.Text,
+    'Asset Tag':Serialnum.Text,
+    'Gate Pass No':Gatepass.Text,
+    Serial:Waybill.Text,
+    Remark: Remark_value.Text,
+    'Valid Till': If(DataCardValue4.Value =true,DataCardValue3.SelectedDate),
+    Returnable: If(DataCardValue4.Value =true, "Yes","No")});
+Patch('Asset Request Items', TempCol);
+
+/*ClearCollect(coldummy,Filter(Tempgatepass, 'Serial Number'<>Blank()));
+
+ForAll(
+   Gallery7.AllItems As coldummy, 
+   Patch(
+     'Asset tool_1', 
+      {'Asset tag':coldummy.'Serial Number' },
+      {
+         Status_id: Value(5),
+         'Changes Status':"Yes"
+      }
+   )
+);
+*/
+
+
+),false);
+
+//Notify("Grid Data Updated",NotificationType.Success,2000);
+
+/*Office365Outlook.SendEmailV2(Lower(User().Email),"Hi",  RichTextEditor1.HtmlText,
+        {
+            IsHtml: true,
+            Importance: "Normal"
+        }   
+     );*/If(CountRows(colIsEmpty)=0,If(CountRows(Tempgatepass)>0,
+          
+          //save changes to the asset list for update the mariadb
+
+          ClearCollect(coldummy,Filter(Tempgatepass, 'Asset Tag'<>Blank()));
+
+ClearCollect(data51a,Sort(Filter('Asset tool_1',Status_id = 1),ID,SortOrder.Ascending));
+ClearCollect(data51b,Sort(Filter('Asset tool_1',Status_id = 1),ID,SortOrder.Descending));
+
+ClearCollect(
+    data65,
+    data51a,
+    Filter(data51b, Not(ID in data51a.ID))
+);
+
+ClearCollect(data52a,Sort(Filter('Asset tool_1',Status_id = 2),ID,SortOrder.Ascending));
+ClearCollect(data52b,Sort(Filter('Asset tool_1',Status_id = 2),ID,SortOrder.Descending));
+
+ClearCollect(
+    data66,
+    data52a,
+    Filter(data52b, Not(ID in data52a.ID))
+);
+
+
+ClearCollect(data53a,Sort(Filter('Asset tool_1',Status_id = 3),ID,SortOrder.Ascending));
+ClearCollect(data53b,Sort(Filter('Asset tool_1',Status_id = 3),ID,SortOrder.Descending));
+
+ClearCollect(
+    data67,
+    data53a,
+    Filter(data53b, Not(ID in data53a.ID))
+);
+ClearCollect(data54a,Sort(Filter('Asset tool_1',Status_id = 4),ID,SortOrder.Ascending));
+ClearCollect(data54b,Sort(Filter('Asset tool_1',Status_id = 4),ID,SortOrder.Descending));
+
+ClearCollect(
+    data68,
+    data54a,
+    Filter(data54b, Not(ID in data54a.ID))
+);
+ClearCollect(data55a,Sort(Filter('Asset tool_1',Status_id = 5),ID,SortOrder.Ascending));
+ClearCollect(data55b,Sort(Filter('Asset tool_1',Status_id = 5),ID,SortOrder.Descending));
+
+ClearCollect(
+    data67,
+    data55a,
+    Filter(data55b, Not(ID in data55a.ID))
+);
+ClearCollect(data56a,Sort(Filter('Asset tool_1',Status_id = 6),ID,SortOrder.Ascending));
+ClearCollect(data56b,Sort(Filter('Asset tool_1',Status_id = 6),ID,SortOrder.Descending));
+
+ClearCollect(
+    data68,
+    data56a,
+    Filter(data56b, Not(ID in data56a.ID))
+);
+
+ClearCollect(data57a,Sort(Filter('Asset tool_1',Status_id = 7),ID,SortOrder.Ascending));
+ClearCollect(data57b,Sort(Filter('Asset tool_1',Status_id = 7),ID,SortOrder.Descending));
+
+ClearCollect(
+    data69,
+    data57a,
+    Filter(data57b, Not(ID in data57a.ID))
+);
+
+ClearCollect(data58a,Sort(Filter('Asset tool_1',Status_id = 8),ID,SortOrder.Ascending));
+ClearCollect(data58b,Sort(Filter('Asset tool_1',Status_id = 8),ID,SortOrder.Descending));
+
+ClearCollect(
+    data70,
+    data58a,
+    Filter(data58b, Not(ID in data58a.ID))
+);
+
+ClearCollect(data59a,Sort(Filter('Asset tool_1',Status_id = 9),ID,SortOrder.Ascending));
+ClearCollect(data59b,Sort(Filter('Asset tool_1',Status_id = 9),ID,SortOrder.Descending));
+
+ClearCollect(
+    data71,
+    data59a,
+    Filter(data59b, Not(ID in data59a.ID))
+);
+
+ClearCollect(data60a,Sort(Filter('Asset tool_1',Status_id = 10),ID,SortOrder.Ascending));
+ClearCollect(data60b,Sort(Filter('Asset tool_1',Status_id = 10),ID,SortOrder.Descending));
+
+ClearCollect(
+    data72,
+    data60a,
+    Filter(data60b, Not(ID in data60a.ID))
+);
+ClearCollect(
+    ALLASSETCOLLECTION,
+    data65,
+    data66,
+    data67,
+    data68,
+    data69,
+    data70,
+    data71,
+    data72
+);
+ClearCollect(
+    allassetdata,
+    ALLASSETCOLLECTION
+);
+ClearCollect(colfinalchanges,Filter( allassetdata, 'Asset tag' in coldummy.'Asset Tag'));
+
+ForAll(
+   Gallery10.AllItems As colfinalchanges, 
+   Patch(
+     'Asset tool_1', 
+      {ID: colfinalchanges.ID },
+      {
+         Status_id: Value(5),
+         'Changes Status': "Yes"
+      }
+   )
+)
+;
+
+
+Notify(
+        "Form Submitted Sucessfully",
+          NotificationType.Success);
+Navigate(Screen6_1),Navigate(BrowseScreen);),Set(viewt,true);UpdateContext({startTimer:true});)
+          
+          ,false
+          ));
+Set(request,false));
+)
+
+
+
+
+
+
+///////////techathon patch
+
+
+
+
+ClearCollect(fetch,Filter(gal_collect_reviewer.AllItems,Label13_2.Text = "true"));
+If(CountRows(fetch)<1,
+If(ErrorMessage28_1.Text<> "Number should be integer value"&& ErrorMessage8_4.Text<>"Event is End on "& Text(ComboBox4.Selected.'End Date',"[$-en-US]mm/dd/yyyy")&& ErrorMessage8_4.Text<>"End Date should be greater than Start Date" && ErrorMessage7_3.Text<>"Event is start from "& Text(ComboBox3.Selected.'Start Date',"[$-en-US]mm/dd/yyyy") &&ErrorMessage7_3.Text<>"Start Date should be equal or greater than today date",
+If(LookUp('Techathon Application', 'Application Name' = DcApplicationName_1.Text &&  ' Delete'<>true, ID) = Blank(),If(SubmitForm(frm_techapp),
+ForAll(gal_collectappname.AllItems, 
+   Patch(
+     'Techathon Team Score',
+      {
+         'Application Name':AppName,
+         //AppName,
+         Event:Dropdown1.Selected.Title,
+         Reviewer: {'@odata.type':"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+        Claims:Label5_21.Text,
+    Department:Label5_21.Text,
+   DisplayName:Label5_21.Text,
+         Email:Label5_21.Text,
+      JobTitle:Label5_21.Text,
+       Picture:Label5_21.Text
+   }
+            
+            }));
+/*If(Label20.Text<> ViewApp.'Application Name',ForAll(
+   gal_getdetailsofreviewer.AllItems As Getdetail, 
+   Patch(
+     'Techathon  Team Enrollment', 
+      {ID:Getdetail.ID},
+      {
+         'Application Name': Label20.Text
+      }
+   )
+),false);*/
+//Office365Outlook.SendEmailV2(User().Email,Subjectmail_5.Text,MailText_4.HtmlText,{
+       // Cc: "Chandrasekar.Mandadapu@Rencata.com;Vinodkumar.Vinayagam@Rencata.com;madhan.loganathan@rencata.com;kavitha.jeyaraj@rencata.com"});
+Set(datechange,false);Set(datechangetdy,false);Set(popupapp,false);Notify("Submitted Successfully!!"  ,NotificationType.Success,3000);Back();ResetForm(frm_techapp),""),Notify("Application '" & DcApplicationName_1.Text & "' already exist. Please give other name."  ,NotificationType.Error,3000))),false);
+ClearCollect(techapp,'Techathon Application');
+ClearCollect(techapp1,Filter(techapp,Active<>false,' Delete'<>true));
+Set(techtab,"Application");
+ClearCollect(Applicationsec,SortByColumns('Techathon Application',"StartDate",SortOrder.Descending));
+ClearCollect(Applicationsec1,Filter(Applicationsec,' Delete'<>true));
+ClearCollect(techapp,'Techathon Application');
+ClearCollect(techapp1,Filter(techapp,Event = Dropdown1.Selected.Title,'End Date'>= Today(),Active<>false,' Delete'<>true));
+
+
+
+
+///techathon edit patch
+
+
+
+
+
+
+
+ClearCollect(fetch,Filter(Revieweradd_Gallery.AllItems,Label13.Text = "true"));
+If(CountRows(fetch)<1,If(ErrorMessage28.Text<>"Number should be integer value" &&ErrorMessage8_2.Text<>"End Date should be greater than Today Date" && ErrorMessage8_2.Text<>"End Date should be greater than Start Date" && ErrorMessage7_1.Text<>"Start Date should be less than End Date"&& ErrorMessage7_1.Text<>"Start Date should be equal or greater than today date",
+If(LookUp('Techathon Application','Application Name' = DcApplicationName.Text && ID<>ViewApp.ID && ' Delete'<>true, ID) = Blank(),If(SubmitForm(Form3_1),
+ForAll(
+   Gallery2_6.AllItems As delrecRev, 
+   Patch(
+      'Techathon Team Score', 
+      {ID:delrecRev.ID},
+      {
+         Delete: true
+      }
+   )
+);
+//Office365Outlook.SendEmailV2(User().Email,Subjectmail_6.Text,MailText_5.HtmlText,{
+        //Cc: "Chandrasekar.Mandadapu@Rencata.com;Vinodkumar.Vinayagam@Rencata.com;madhan.loganathan@rencata.com;kavitha.jeyaraj@rencata.com"});
+/*ForAll(
+   Gallery2_6.AllItems As delrecRev, 
+   Patch(
+      'Techathon Reviewers', 
+      {'Application Name':delrecRev.'Application Name',Reviewer:delrecRev.Reviewer},
+      {
+         Delete: true
+      }
+   )
+);*/
+ForAll(
+   Gallery2_7.AllItems As delrecReviewer, 
+   Patch(
+      'Techathon Reviewers', 
+      {ID:delrecReviewer.ID},
+      {
+         Delete: true
+      }
+   )
+);
+If(DcApplicationName.Text<> ViewApp.'Application Name'  
+,ForAll(
+   Gallery5.AllItems As Getdetail, 
+   Patch(
+     'Techathon  Team Enrollment', 
+      {ID:Getdetail.ID},
+      {
+         'Application Name': DcApplicationName.Text
+        
+      }
+   )
+),false);
+If(DcApplicationName.Text<> ViewApp.'Application Name'  
+,ForAll(
+   Revieweradd_Gallery.AllItems As Collectionapp, 
+   Patch(
+     'Techathon Team Score', 
+      {ID:Collectionapp.ID},
+      {
+         'Application Name': DcApplicationName.Text
+        
+      }
+   )
+),false);
+If(DcApplicationName.Text<> ViewApp.'Application Name'  
+,ForAll(
+   Gallery7.AllItems As datashowreview, 
+   Patch(
+     'Techathon Reviewers', 
+      {ID:datashowreview.ID},
+      {
+         'Application Name': DcApplicationName.Text
+        
+      }
+   )
+),false);
+If(RichTextEditor3.HtmlText <> ViewApp.Description 
+,ForAll(
+   Gallery5.AllItems As Getdetail, 
+   Patch(
+     'Techathon  Team Enrollment', 
+      {ID:Getdetail.ID},
+      {
+         Description:RichTextEditor3.HtmlText
+      }
+   )
+),false);
+ResetForm(Form3_1);Set(datechange,false);Set(datechangetdy,false);Set(popupapp,false);Navigate(BrowseScreen);Notify("Submitted Successfully!!"  ,NotificationType.Success,3000);ForAll(Revieweradd_Gallery_1.AllItems, 
+   Patch(
+     'Techathon Team Score',
+      {
+         'Application Name':DcApplicationName.Text,
+         Event:Dropdown1.Selected.Title,
+         Reviewer: {'@odata.type':"#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+        Claims:Label8_16.Text,
+    Department:Label8_16.Text,
+   DisplayName:Label8_16.Text,
+         Email:Label8_16.Text,
+      JobTitle:Label8_16.Text,
+       Picture:Label8_16.Text
+   }
+            
+            })),""),Notify("Application '" & DcApplicationName.Text & "' already exist. Please give other name."   ,NotificationType.Error,3000))),Notify("There is some duplicate Reviewers"  ,NotificationType.Error,3000));
+ClearCollect(techapp,'Techathon Application');
+ClearCollect(techapp1,Filter(techapp,Active<>false,' Delete'<>true));
+Set(techtab,"Application");
+ClearCollect(Applicationsec,SortByColumns('Techathon Application',"StartDate",SortOrder.Descending));
+ClearCollect(Applicationsec1,Filter(Applicationsec,' Delete'<>true));
+Clear(PROJteamMemberA);Set(view1,false);
