@@ -267,3 +267,41 @@ ForAll(scCollection2,
 );
 
 Set(Sortupdate,false);
+
+
+
+
+
+
+
+
+
+
+
+/////////////upload the img
+
+
+
+
+Set(varFlowResult, 'Live-Carouselimagesflow'.Run(AddMediaButton1_2.FileName,Mid(JSON(UploadedImage1_2.Image,JSONFormat.IncludeBinaryData), Find(",", JSON(UploadedImage1_2.Image,JSONFormat.IncludeBinaryData))+1, Len(JSON(UploadedImage1_2.Image,JSONFormat.IncludeBinaryData)) - Find(",", JSON(UploadedImage1_2.Image,JSONFormat.IncludeBinaryData)) -1)));
+
+
+If(
+    varFlowResult.return = "Success",
+    Set(ResetOption,true);
+Set(LoadingImageVisible,true);Set(AddNewFileContainervisible,false);Set(AddNewFilevisible,false);Refresh('Carousel Image');ClearCollect(segCollection,'Carousel Image');Reset(AddMediaButton1_2);Set(LoadingImageVisible,false);
+Notify(
+        "File uploaded successfully!",
+        NotificationType.Success,
+        3000
+    );
+    ,
+    Notify(
+        "File Upload Failed, please try again.",
+        NotificationType.Error,
+        3000
+    )
+    
+);
+
+
