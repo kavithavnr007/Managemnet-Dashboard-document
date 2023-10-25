@@ -242,3 +242,28 @@ Set(
     false
 );
 
+
+
+
+
+///////increament the rowcount'
+
+
+
+ClearCollect(scCollection1,'Carousel Management');
+ClearCollect(scCollection2, SortByColumns(Filter(scCollection1,Delete <> true),"SlideOrder", SortOrder.Ascending));
+Clear(scCollection);
+
+ForAll(scCollection2, 
+       Collect(scCollection,
+               Last(FirstN(AddColumns(scCollection2,
+                                "RowNumber",
+                                CountRows(scCollection)+1
+                           ), 
+                           CountRows(scCollection)+1
+                    )
+               )    
+       )
+);
+
+Set(Sortupdate,false);
