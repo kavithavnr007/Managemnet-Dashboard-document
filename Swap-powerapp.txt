@@ -682,3 +682,72 @@ Set(techtab,"Application");
 ClearCollect(Applicationsec,SortByColumns('Techathon Application',"StartDate",SortOrder.Descending));
 ClearCollect(Applicationsec1,Filter(Applicationsec,' Delete'<>true));
 Clear(PROJteamMemberA);Set(view1,false);
+
+
+
+
+Set(popdummy,true);
+If(ErrorMessage32_8.Text<>"There is some duplicate Email",
+/*If(LookUp(
+        'Techathon Team Employees',
+     Employee.Email = DataCardValue29_4.Selected.Email,
+        ID
+    ) = Blank(),*/
+    If(
+        DcApplicationName.Text<> Blank() && DataCardValue29_8.Selected.mail <> Blank(),
+ClearCollect(Rev,AppReviewer);
+Clear(Collectionapp);
+//Clear(Collection5);
+ForAll(
+    DataCardValue29_8.SelectedItems,
+    Collect(
+        Collectionappadd,
+        {
+            'Application Name': DataCardValue22.Text,
+            Reviewer: {
+                '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                DisplayName: displayName,
+                Email: mail
+            }
+        }
+    )
+);
+
+//ForAll(mem, Collect(Collection2,{Employee:ThisRecord.Employee,Team:ThisRecord.Team,'Employee Email':ThisRecord.Employee.Email,'Employee //Name':ThisRecord.Employee.DisplayName}));
+ForAll(Collectionapp1, Collect(Collectionapp,{ID: ThisRecord.ID,'Application Name':ThisRecord.'Application Name',Reviewer:ThisRecord.Reviewer}));
+ForAll(Collectionappadd, Collect(Collectionapp,{'Application Name':ThisRecord.'Application Name',Reviewer:ThisRecord.Reviewer}));
+
+
+
+/*ForAll(
+    DataCardValue29_4.SelectedItems,
+    Patch(
+        'Techathon Team Employees',
+        {
+            Team: DataCardValue13_4.Text,
+            Employee: {
+                '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                Claims: Claims,
+                Department: Department,
+                DisplayName: DisplayName,
+                Email: Email,
+                JobTitle: JobTitle,
+                Picture: Picture
+            }
+        }
+    )
+);*/ResetForm(Form2_8);
+        Set(
+            popup,
+            false
+        );Set(error,false),
+        Set(error,true)
+    ),""/*,
+    Notify(
+        "There is some duplicate email",
+        NotificationType.Error,
+        3000
+    )
+)*/);
+Refresh('Techathon Team Score');
+ClearCollect(AppReviewer,Filter('Techathon Team Score','Application Name'= ViewApp.'Application Name'));
