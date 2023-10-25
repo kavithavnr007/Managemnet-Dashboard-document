@@ -1,0 +1,13 @@
+As final part of KT , Below I mention the Source code of React-script-editor and Installation Steps Video
+
+ 
+
+Sources Code :
+
+https://github.com/pnp/sp-dev-fx-webparts/tree/main/samples/react-script-editor
+
+ 
+
+Installation Steps :
+
+https://www.youtube.com/watch?v=Fz3NeLLKrpE
